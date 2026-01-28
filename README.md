@@ -2,3 +2,6 @@
 Repo del Curso de Backend 
 
 anthony
+Nelho Fabrizio Espinoza Manrique
+Ruben
+Daniela
