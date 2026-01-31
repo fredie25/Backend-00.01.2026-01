@@ -1,27 +1,25 @@
-Algoritmo Ejercicio07
+// 7. Heladería con membresía
+Algoritmo Ejercicio_07
     Definir tipo Como Caracter
-    Definir monto, desc, total Como Real
-	
-    Escribir "Ingrese monto de compra:"
-    Leer monto
-    Escribir "Ingrese tipo de membresía (A, B, C):"
+    Definir costo, total Como Real
+    Escribir "Costo del helado:"
+    Leer costo
+    Escribir "Tipo de membresía (A, B o C):"
     Leer tipo
-	
-    tipo <- Mayusculas(tipo)
-	
-    Segun tipo Hacer
-        "A":
-            desc <- 0.10
-        "B":
-            desc <- 0.15
-        "C":
-            desc <- 0.20
-        De Otro Modo:
-            desc <- 0
-            Escribir "Tipo inválido (sin descuento)."
-    FinSegun
-	
-    total <- monto * (1 - desc)
-    Escribir "Descuento: ", desc * 100, "%"
-    Escribir "Total: $", total
+    // Uso el tipo de letra para decidir cuánto descuento quitarle al precio.
+    Si tipo = "A" O tipo = "a" Entonces
+        total <- costo * 0.90
+    Sino
+        Si tipo = "B" O tipo = "b" Entonces
+            total <- costo * 0.85
+        Sino
+            Si tipo = "C" O tipo = "c" Entonces
+                total <- costo * 0.80
+            Sino
+                total <- costo
+                Escribir "Tipo no válido, sin descuento."
+            FinSi
+        FinSi
+    FinSi
+    Escribir "Total con descuento: $", total
 FinAlgoritmo
