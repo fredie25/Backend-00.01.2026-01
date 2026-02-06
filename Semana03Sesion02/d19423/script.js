@@ -1,4 +1,4 @@
-console.log("Inicio de la aplicacion");
+    console.log("Inicio de la aplicacion");
 
 let isPrendido = false;
 
