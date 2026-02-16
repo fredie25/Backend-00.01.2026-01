@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackaton04</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="container">
+
+    <h1>Hackaton  <i class="bi bi-4-square"></i></h1>
+    <section class="bg-light border-0">
+        <h2><b>Ejercicios Hackaton: Funciones</b></h2>
+        <p ><b></b>1. Crea una función que retorne la suma de dos números.</b></p>
+        <button onclick="ejercicio01()" class="btn btn-primary">ejercicio01</button>
+        <br>
+        <p><b></b>2. Crea una función que retorne la potencia de un número dado, esta función deberá recibir la potencia
+            y
+            el número a potenciar.
+            </b></p>
+        <button onclick="ejercicio02() "class="btn btn-primary">ejercicio02</button>
+        <br>
+        <p><b></b>3. Crea una función que tome números y devuelva la suma de sus cubos. sumOfCubes(1, 5, 9) ➞ 855
+            </b></p>
+        <br>
+        <button onclick="ejercicio03()"class="btn btn-primary">ejercicio03</button>
+        <br>
+        <p><b></b>4. Escribe una función que tome la base y la altura de un triángulo y devuelva su área.
+            triArea(3, 2) ➞ 3
+            </b></p>
+        <br>
+        <button onclick="ejercicio04()"class="btn btn-primary">ejercicio04</button>
+        <br>
+        <p><b></b>5. Crea una función llamada calculator que recibe 3 parámetros, dos números y una operación matemática
+            (+,-,/,x,%), y si la operación no es correcta que envié un mensaje “El parámetro no es reconocido”
+            calculator(2,"+", 2) ➞ 4
+            </b></p>
+        <br>
+        <button onclick="ejercicio05()"class="btn btn-primary">ejercicio05</button>
+    </section>
+
+    <br>
+    <section>
+        <h2 class="fw-bold"><b>¿Cómo defines una función?</b></h2>
+        <p class="mt-0">Como un contenedor de codigo que va a ejecutar una serie de pasos y me devolvera el resultado</p>
+        <br>
+        <h2 class="fw-bold"><b>¿Hasta cuantos argumentos puedes declarar en una función?</b></h2>
+        <p class="mt-0">Pueden haber cientos de argumentos pero por lo general como maximo se usan 3 o 4 debido a que seria un dolor
+            de
+            cabeza recordarlos o mantener el orden.</p>
+    </section>
+    <br>
+    <section>
+        <h1><b></B>Ejercicios Hackaton: Material Adicional</b></h1>
+        <br>
+        <p>1. Utilizando función arrow, crear una función que reciba como parámetros un nombre, apellido y edad y los
+            retorne en un string concatenado “Hola mi nombre es sebastián yabiku y mi edad 33”</p>
+        <br>
+        <button onclick="problema01()" class="btn btn-success">ejercicio01</button>
+        <br>
+        <p>2 . Cree una función que tome números y devuelva la suma de sus cubos.
+            sumOfCubes(1, 5, 9) ➞ 855
+            // Since 1^3 + 5^3 + 9^3 = 1 + 125 + 729 = 855
+        </p>
+        <br>
+        <button onclick="problema02()" class="btn btn-success">ejercicio02</button>
+        <br>
+        <p>3 . Crear una funcion que me retorne el tipo de valor entregado, invocar la función para los distintos tipos
+            de js</p>
+        <br>
+        <button onclick="problema03()" class="btn btn-success">ejercicio03</button>
+        <br>
+        <p>4. Crear una función que reciba n cantidad de argumentos y los sume ( utilizar parametros rest)</p>
+        <button onclick="problema04()" class="btn btn-success">ejercicio04</button>
+        <br>
+        <p>5. Crear una función que reciba un array de valores y filtre los valores que no son string
+        </p>
+        <button onclick="problema05()" class="btn btn-success">ejercicio05</button>
+        <br>
+        <p>6. Cree una función que tome una matriz de números y devuelva los números mínimos y máximos, en ese orden.
+        </p>
+        <button onclick="problema06()" class="btn btn-success">ejercicio06</button>
+        <br>
+        <p>7. Escriba una función que tome una matriz de 10 enteros (entre 0 y 9) y devuelva una cadena en forma de un
+            número de teléfono.
+            formatPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) ➞ "(123) 456-7890"
+        </p>
+        <button onclick="problema07()" class="btn btn-success">ejercicio07</button>
+        <br>
+        <p>8. Cree una función que tome una matriz de matrices con números. Devuelve una nueva matriz (única) con el
+            mayor número de cada uno.
+            findLargestNums([[4, 2, 7, 1], [20, 70, 40, 90], [1, 2, 0]]) ➞ [7, 90, 2]
+        </p>
+        <button onclick="problema08()" class="btn btn-success">ejericico08</button>
+        <br>
+        <p>9. Dada una palabra, escriba una función que devuelva el primer índice y el último índice de un carácter.
+            charIndex("hello", "l") ➞ [2, 3]
+            // The first "l" has index 2, the last "l" has index 3.
+
+            charIndex("circumlocution", "c") ➞ [0, 8]
+            // The first "c" has index 0, the last "c" has index 8.
+
+        </p>
+        <button onclick="problema09()" class="btn btn-success">ejericicio09</button>
+        <br>
+        <p>10. Escriba una función que convierta un objeto en una matriz, donde cada elemento representa un par
+            clave-valor.
+            toArray({ a: 1, b: 2 }) ➞ [["a", 1], ["b", 2]]
+        </p>
+        <button onclick="problema10()" class="btn btn-success">ejericicio10</button>
+        <br>
+        <p>11. Cree la función que toma una matriz con objetos y devuelve la suma de los presupuestos de las personas.
+
+            getBudgets([
+            { name: "John", age: 21, budget: 23000 },
+            { name: "Steve", age: 32, budget: 40000 },
+            { name: "Martin", age: 16, budget: 2700 }
+            ]) ➞ 65700
+
+        </p>
+        <button onclick="problema11()" class="btn btn-success">ejericicio11</button>
+        <br>
+        <p>12. Cree una función que tome una matriz de estudiantes y devuelva una matriz de nombres de estudiantes.
+            getStudentNames([
+            { name: "Steve" },
+            { name: "Mike" },
+            { name: "John" }
+            ]) ➞ ["Becky", "John", "Steve"]
+        </p>
+        <button onclick="problema12()" class="btn btn-success">ejericicio12</button>
+        <br>
+        <p>13. Escriba una función que convierta un objeto en una matriz de claves y valores.
+            objectToArray({
+            likes: 2,
+            dislikes: 3,
+            followers: 10
+            }) ➞ [["likes", 2], ["dislikes", 3], ["followers", 10]]
+
+        </p>
+        <button onclick="problema13()" class="btn btn-success">ejericicio13</button>
+        <br>
+        <p>14. Cree una función donde, dado el número n, devuelva la suma de todos los números cuadrados incluyendo n.
+            squaresSum(3) ➞ 14
+            // 1² + 2² + 3² =
+            // 1 + 4 + 9 =
+            // 14
+
+        </p>
+        <button onclick="problema14()" class="btn btn-success">ejericicio14</button>
+        <br>
+        <p>15. Cree una función para multiplicar todos los valores en una matriz por la cantidad de valores en la matriz
+            dada
+            multiplyByLength([2, 3, 1, 0]) ➞ [8, 12, 4, 0]
+
+        </p>
+        <button onclick="problema15()" class="btn btn-success">ejericicio15</button>
+        <br>
+        <p>16. Cree una función que tome un número como argumento y devuelva una matriz de números contando desde este
+            número a cero.
+            countdown(5) ➞ [5, 4, 3, 2, 1, 0]
+
+        </p>
+        <button onclick="problema16()" class="btn btn-success">ejericicio16</button>
+        <br>
+        <p>17. Cree una función que tome una matriz y devuelva la diferencia entre los números más grandes y más
+            pequeños.
+            diffMaxMin([10, 4, 1, 4, -10, -50, 32, 21]) ➞ 82
+            // Smallest number is -50, biggest is 32.
+
+
+        </p>
+        <button onclick="problema17()" class="btn btn-success">ejericicio17</button>
+        <p>18. Cree una función que filtre las cadenas de una matriz y devuelva una nueva matriz que solo contenga
+            enteros.
+            filterList([1, 2, 3, "x", "y", 10]) ➞ [1, 2, 3, 10]
+
+
+
+        </p>
+        <button onclick="problema18()" class="btn btn-success">ejericicio18</button>
+        <p>19. Cree una función que tome dos argumentos (elemento, tiempos). El primer argumento (elemento) es el
+            elemento que necesita repetirse, mientras que el segundo argumento (veces) es la cantidad de veces que se
+            debe repetir el elemento. Devuelve el resultado en una matriz.
+            repeat(13, 5) ➞ [13, 13, 13, 13, 13]
+
+
+        </p>
+        <button onclick="problema19()" class="btn btn-success">ejercicio19</button>
+
+        <p>20.Escriba una función, .vreplace () que extienda el prototipo de cadena reemplazando todas las vocales en
+            una cadena con una vocal especificada.
+            "apples and bananas".vreplace("u") ➞ "upplus und bununus"
+
+        </p>
+        <button onclick="problema20()" class="btn btn-success">ejercicio20</button>
+        <p>20.Escriba una función, .vreplace () que extienda el prototipo de cadena reemplazando todas las vocales en
+            una cadena con una vocal especificada.
+            "apples and bananas".vreplace("u") ➞ "upplus und bununus"
+
+        </p>
+        <p>21. Te dan una cadena de palabras. Debe encontrar la palabra "Nemo" y devolver una cadena como esta:
+            "¡Encontré a Nemo en [el orden de la palabra que encuentra nemo]!".
+            findNemo("I am finding Nemo !") ➞ "I found Nemo at 4!"
+
+
+        </p>
+        <button onclick="problema21()" class="btn btn-success">ejercicio21</button>
+        <p>22. Cree una función que capitalice la última letra de cada palabra.
+            capLast("hello") ➞ "hellO"
+
+        </p>
+        <button onclick="problema22()" class="btn btn-success">ejercicio22</button>
+
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
