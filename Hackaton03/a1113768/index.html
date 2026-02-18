@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackaton 03</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Hackaton 03</h1>
+            <p class="subtitle">Ejercicios de JavaScript</p>
+        </header>
+
+        <div class="main-content">
+            <button class="clear-btn" onclick="limpiarTodo()">Limpiar Todo</button>
+            
+            <!-- Fila 1: Ejercicios 1-10 -->
+            <div class="exercises-row">
+                <button class="exercise-btn" onclick="mostrarEjercicio(1)">Ejercicio 01</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(2)">Ejercicio 02</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(3)">Ejercicio 03</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(4)">Ejercicio 04</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(5)">Ejercicio 05</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(6)">Ejercicio 06</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(7)">Ejercicio 07</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(8)">Ejercicio 08</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(9)">Ejercicio 09</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(10)">Ejercicio 10</button>
+            </div>
+
+            <!-- Fila 2: Ejercicios 11-20 -->
+            <div class="exercises-row">
+                <button class="exercise-btn" onclick="mostrarEjercicio(11)">Ejercicio 11</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(12)">Ejercicio 12</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(13)">Ejercicio 13</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(14)">Ejercicio 14</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(15)">Ejercicio 15</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(16)">Ejercicio 16</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(17)">Ejercicio 17</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(18)">Ejercicio 18</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(19)">Ejercicio 19</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(20)">Ejercicio 20</button>
+            </div>
+
+            <!-- Fila 3: Ejercicios 21-30 -->
+            <div class="exercises-row">
+                <button class="exercise-btn" onclick="mostrarEjercicio(21)">Ejercicio 21</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(22)">Ejercicio 22</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(23)">Ejercicio 23</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(24)">Ejercicio 24</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(25)">Ejercicio 25</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(26)">Ejercicio 26</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(27)">Ejercicio 27</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(28)">Ejercicio 28</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(29)">Ejercicio 29</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(30)">Ejercicio 30</button>
+            </div>
+
+            <!-- Fila 4: Ejercicios 31-40 -->
+            <div class="exercises-row">
+                <button class="exercise-btn" onclick="mostrarEjercicio(31)">Ejercicio 31</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(32)">Ejercicio 32</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(33)">Ejercicio 33</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(34)">Ejercicio 34</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(35)">Ejercicio 35</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(36)">Ejercicio 36</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(37)">Ejercicio 37</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(38)">Ejercicio 38</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(39)">Ejercicio 39</button>
+                <button class="exercise-btn" onclick="mostrarEjercicio(40)">Ejercicio 40</button>
+            </div>
+
+            <!-- Área de trabajo -->
+            <div class="exercise-display">
+                <div class="exercise-header">
+                    <h2 id="exerciseTitle">Selecciona un ejercicio</h2>
+                </div>
+                
+                <div class="code-section">
+                    <pre><code id="codeDisplay">// Haz clic en un ejercicio para ver su código</code></pre>
+                </div>
+
+                <div class="input-section" id="inputSection" style="display: none;">
+                    <input type="text" id="inputField" placeholder="Ingresa el valor">
+                    <button class="execute-btn" onclick="ejecutarEjercicioActual()">Ejecutar</button>
+                </div>
+
+                <div class="result-section" id="resultSection" style="display: none;">
+                    <div id="resultOutput"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

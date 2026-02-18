@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hackatón 3</title>
+
+    <!-- Fuente recomendada -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- TU CSS FRUTIGER AERO -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <h1>DESARROLLO DE LA HACKATÓN 3 - SV72190555</h1>
+    <h2>Ejercicios de JavaScript</h2>
+
+    <div class="contenedor card gloss">
+        <h1>Hackatón 3</h1>
+        <p>Selecciona un ejercicio</p>
+
+        <div class="grid">
+            <!-- 40 botones -->
+            <button onclick="ejecutarEjercicio(1)">Ejercicio 01</button>
+            <button onclick="ejecutarEjercicio(2)">Ejercicio 02</button>
+            <button onclick="ejecutarEjercicio(3)">Ejercicio 03</button>
+            <button onclick="ejecutarEjercicio(4)">Ejercicio 04</button>
+            <button onclick="ejecutarEjercicio(5)">Ejercicio 05</button>
+            <button onclick="ejecutarEjercicio(6)">Ejercicio 06</button>
+            <button onclick="ejecutarEjercicio(7)">Ejercicio 07</button>
+            <button onclick="ejecutarEjercicio(8)">Ejercicio 08</button>
+            <button onclick="ejecutarEjercicio(9)">Ejercicio 09</button>
+            <button onclick="ejecutarEjercicio(10)">Ejercicio 10</button>
+
+            <button onclick="ejecutarEjercicio(11)">Ejercicio 11</button>
+            <button onclick="ejecutarEjercicio(12)">Ejercicio 12</button>
+            <button onclick="ejecutarEjercicio(13)">Ejercicio 13</button>
+            <button onclick="ejecutarEjercicio(14)">Ejercicio 14</button>
+            <button onclick="ejecutarEjercicio(15)">Ejercicio 15</button>
+            <button onclick="ejecutarEjercicio(16)">Ejercicio 16</button>
+            <button onclick="ejecutarEjercicio(17)">Ejercicio 17</button>
+            <button onclick="ejecutarEjercicio(18)">Ejercicio 18</button>
+            <button onclick="ejecutarEjercicio(19)">Ejercicio 19</button>
+            <button onclick="ejecutarEjercicio(20)">Ejercicio 20</button>
+
+            <button onclick="ejecutarEjercicio(21)">Ejercicio 21</button>
+            <button onclick="ejecutarEjercicio(22)">Ejercicio 22</button>
+            <button onclick="ejecutarEjercicio(23)">Ejercicio 23</button>
+            <button onclick="ejecutarEjercicio(24)">Ejercicio 24</button>
+            <button onclick="ejecutarEjercicio(25)">Ejercicio 25</button>
+            <button onclick="ejecutarEjercicio(26)">Ejercicio 26</button>
+            <button onclick="ejecutarEjercicio(27)">Ejercicio 27</button>
+            <button onclick="ejecutarEjercicio(28)">Ejercicio 28</button>
+            <button onclick="ejecutarEjercicio(29)">Ejercicio 29</button>
+            <button onclick="ejecutarEjercicio(30)">Ejercicio 30</button>
+
+            <button onclick="ejecutarEjercicio(31)">Ejercicio 31</button>
+            <button onclick="ejecutarEjercicio(32)">Ejercicio 32</button>
+            <button onclick="ejecutarEjercicio(33)">Ejercicio 33</button>
+            <button onclick="ejecutarEjercicio(34)">Ejercicio 34</button>
+            <button onclick="ejecutarEjercicio(35)">Ejercicio 35</button>
+            <button onclick="ejecutarEjercicio(36)">Ejercicio 36</button>
+            <button onclick="ejecutarEjercicio(37)">Ejercicio 37</button>
+            <button onclick="ejecutarEjercicio(38)">Ejercicio 38</button>
+            <button onclick="ejecutarEjercicio(39)">Ejercicio 39</button>
+            <button onclick="ejecutarEjercicio(40)">Ejercicio 40</button>
+        </div>
+
+        <br>
+
+        <button onclick="limpiarTodo()">Limpiar todo</button>
+
+        <div id="zona-ejercicio" class="card"></div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- LÓGICA DE CARGA -->
+    <!-- ========================= -->
+    <script>
+        function ejecutarEjercicio(numero) {
+            const nombreFuncion = `ejercicio${String(numero).padStart(2, "0")}`;
+
+            if (typeof window[nombreFuncion] === "function") {
+                window[nombreFuncion]();
+            } else {
+                Swal.fire({
+                    title: "Ejercicio no implementado",
+                    text: `El ${nombreFuncion} aún no existe`,
+                    icon: "warning"
+                });
+            }
+        }
+
+        function limpiarTodo() {
+            const zona = document.getElementById("zona-ejercicio");
+            if (zona) {
+                zona.innerHTML = "";
+            }
+        }
+    </script>
+
+
+
+
+
+    <!-- TU ARCHIVO JS -->
+    <script src="hackaton03.js"></script>
+
+</body>
+
+</html>

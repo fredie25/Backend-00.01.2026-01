@@ -16,4 +16,5 @@ Proceso Ejercicio03
 	
 FinProceso
 
-//Hacer un algoritmo en Pseint que lea un número y determinar si termina en 4.//
+//Hacer un algoritmo en Pseint que lea un nï¿½mero y determinar si termina en 4.//
+

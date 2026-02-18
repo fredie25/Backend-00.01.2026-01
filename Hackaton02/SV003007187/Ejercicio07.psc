@@ -1,7 +1,7 @@
  Ejercicio07
 
 
-	Algoritmo HeladosSimple
+	Algoritmo Helados
    
   
     Definir tipo Como Caracter

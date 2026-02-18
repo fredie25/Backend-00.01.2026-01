@@ -1,0 +1,19 @@
+
+.btnEjercicio{
+ background-color: #4CAF50; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 15px 32px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Display inline-block */
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 4px 2px; /* Márgenes externos */
+    cursor: pointer; /* Cursor tipo mano */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+
+    
+    
+
+    
+}

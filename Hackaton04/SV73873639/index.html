@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Title -->
+    <title>Hackathon: JavaScript & HTTP</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Vendor: SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+    <!-- App -->
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <!-- Background blobs -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+
+    <main class="wrap">
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="brand">
+          <span class="dot"></span>
+          Hackathon UI
+        </div>
+        <div class="pill">Asistente • JavaScript & HTTP</div>
+      </header>
+
+      <!-- Hero -->
+      <section class="hero" id="top">
+        <h1>Hackathon: JavaScript & HTTP</h1>
+
+        <p class="subtitle">
+          Haz clic (o presiona Enter) en un ejercicio: verás una guía corta, luego ingresarás datos y finalmente
+          recibirás resultado + explicación.
+        </p>
+
+        <div class="metaRow">
+          <span class="pill">Reto 1: Fundamentos</span>
+          <span class="pill">Reto 2: Material adicional (22)</span>
+          <span class="pill">Teoría</span>
+        </div>
+
+        <div class="ctaRow">
+          <button class="cta" id="btn-ejercicios" type="button">Abrir ejercicios</button>
+          <button class="cta cta2" id="btn-teoria" type="button">Ver teoría</button>
+        </div>
+      </section>
+
+      <!-- Exercises grid -->
+      <section class="grid" id="ejercicios">
+        <!-- ===================== RETO 1 ===================== -->
+        <article class="card col-5">
+          <div class="cardHead">
+            <h2 class="title">
+              <span class="icon">🚀</span>
+              Reto 1: Fundamentos JS
+            </h2>
+            <span class="count">5 items</span>
+          </div>
+
+          <div class="list">
+            <button class="item" type="button" data-action="reto1-ej1">
+              <strong>1. Suma de dos números</strong>
+              <span>Ingresa 2 números → suma + explicación</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto1-ej2">
+              <strong>2. Potencia de un número</strong>
+              <span>Base y exponente → potencia</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto1-ej3">
+              <strong>3. Suma de cubos</strong>
+              <span>sumOfCubes(1,5,9) → 855</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto1-ej4">
+              <strong>4. Área de triángulo</strong>
+              <span>triArea(base, altura) → área</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto1-ej5">
+              <strong>5. Calculadora (Switch)</strong>
+              <span>+, -, *, /, %</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- ===================== RETO 2 ===================== -->
+        <article class="card col-4 card-reto2">
+          <div class="cardHead">
+            <h2 class="title">
+              <span class="icon">💎</span>
+              Reto 2: Material adicional
+            </h2>
+            <span class="count">22 items</span>
+          </div>
+
+          <div class="list scroll">
+            <button class="item" type="button" data-action="reto2-ej1">
+              <strong>1. “Preséntate en una línea”</strong>
+              <span>Nombre, Apellido, Edad → string</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej2">
+              <strong>2. "Cálculo cúbico rápido"</strong>
+              <span>n números → suma de cubos</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej3">
+              <strong>3. "Detector de tipo de dato"</strong>
+              <span>tipo de dato entregado</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej4">
+              <strong>4. “Suma flexible ilimitada” (REST suma)</strong>
+              <span>n argumentos → suma</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej5">
+              <strong>5. “Solo texto, por favor” (filtrar strings)</strong>
+              <span>array → solo strings</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej6">
+              <strong>6. “Extremos: mínimo y máximo” (minMax)</strong>
+              <span>[min, max]</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej7">
+              <strong>7. “Teléfono con formato automático” (formatPhoneNumber)</strong>
+              <span>10 dígitos → teléfono</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej8">
+              <strong>8. “El mayor de cada grupo” (findLargestNums)</strong>
+              <span>máximo por sub-array</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej9">
+              <strong>9. “¿Dónde aparece la letra?” (charIndex)</strong>
+              <span>[primero, último]</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej10">
+              <strong>10. “Objeto → pares clave/valor” (toArray)</strong>
+              <span>objeto → pares [k,v]</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej11">
+              <strong>11. “Suma total de presupuestos” (getBudgets)</strong>
+              <span>suma budgets</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej12">
+              <strong>12. “Lista de nombres de estudiantes” (getStudentNames)</strong>
+              <span>nombres</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej13">
+              <strong>13. “Inventario de propiedades” (objectToArray)</strong>
+              <span>claves y valores</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej14">
+              <strong>14. “Suma de cuadrados 1..n” (squaresSum)</strong>
+              <span>1² + ... + n²</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej15">
+              <strong>15. “Multiplica por su longitud” (multiplyByLength)</strong>
+              <span> length</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej16">
+              <strong>16. “Cuenta regresiva perfecta” (countdown)</strong>
+              <span>[n...0]</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej17">
+              <strong>17. “Rango numérico (max−min)” (diffMaxMin)</strong>
+              <span>max - min</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej18">
+              <strong>18. “Filtrado: solo enteros” (filterList)</strong>
+              <span>solo enteros</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej19">
+              <strong>19. “Repite y construye un array” (repeat)</strong>
+              <span>(elemento, veces)</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej20">
+              <strong>20. “Reemplazo de vocales inteligente” (vreplace)</strong>
+              <span>reemplaza vocales</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej21">
+              <strong>21. “¿Dónde está Nemo?” (findNemo)</strong>
+              <span>posición de Nemo</span>
+            </button>
+
+            <button class="item" type="button" data-action="reto2-ej22">
+              <strong>22. “Última letra en MAYÚSCULA” (capLast)</strong>
+              <span>última letra mayúscula</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- ===================== TEORÍA ===================== -->
+        <article class="card col-3">
+          <div class="cardHead">
+            <h2 class="title">
+              <span class="icon">🧠</span>
+              Teoría
+            </h2>
+            <span class="count">2 items</span>
+          </div>
+
+          <div class="list">
+            <button class="item" type="button" data-action="teoria-1">
+              <strong>¿Cómo defines una función?</strong>
+              <span>definición + ejemplo</span>
+            </button>
+
+            <button class="item" type="button" data-action="teoria-2">
+              <strong>¿Cuántos argumentos declarar?</strong>
+              <span>claridad y rest</span>
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <p class="foot">Tip: Enter en un botón = click. En inputs, Enter también confirma.</p>
+    </main>
+  </body>
+</html>

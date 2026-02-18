@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Hackaton03</title>
+  </head>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: "#00d4aa",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "outfit", monospace;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition:
+        max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s ease;
+      opacity: 0;
+    }
+    .accordion-content.open {
+      max-height: 15000px;
+      opacity: 1;
+    }
+    .accordion-arrow {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .accordion-arrow.rotate {
+      transform: rotate(180deg);
+    }
+    pre {
+      tab-size: 2;
+    }
+    code {
+      font-family: "JetBrains Mono", monospace;
+    }
+    .fn {
+      color: #aa65ef;
+    }
+    .ev-listener {
+      color: #86ef63;
+    }
+    .ev {
+      color: #f6f079;
+    }
+    .el {
+      color: #de8b10;
+    }
+    .st {
+      color: #86ef63;
+    }
+    .nb {
+      color: #f19411;
+    }
+    .op {
+      color: #e05b52;
+    }
+  </style>
+
+  <body class="bg-gray-900 text-white min-h-screen">
+    <!-- ======= Ejercicio 1 ======= -->
+    <section class="max-w-2xl mx-auto mt-12 px-4">
+      <!-- Encabezado desplegable -->
+      <button
+        data-ejercicio="ej1"
+        class="btn-accordion w-full flex items-center gap-4 p-4 bg-gray-800 rounded-2xl cursor-pointer hover:bg-gray-750 transition-colors group"
+      >
+        <span
+          class="w-12 h-12 rounded-xl bg-accent/15 text-accent font-bold flex items-center justify-center shrink-0"
+          >01</span
+        >
+        <p class="text-sm md:text-base flex-1">
+          Crea una función que retorne la suma de dos números.
+        </p>
+        <svg
+          id="arrow-ej1"
+          class="accordion-arrow w-5 h-5 text-gray-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Contenido desplegable -->
+      <div class="accordion-content" id="ej1">
+        <div class="mt-3 space-y-4">
+          <!-- Input + Botón -->
+          <div class="flex flex-row justify-center items-center gap-4 py-2">
+            <input
+              type="text"
+              id="input_ej1_1"
+              placeholder="Ingresa primer número:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <input
+              type="text"
+              id="input_ej1_2"
+              placeholder="Ingresa segundo número:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <button
+              id="btn_ej1"
+              data-resultado="resultado_ej1"
+              class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+            >
+              Enviar
+            </button>
+          </div>
+
+          <!-- Resultado -->
+          <div
+            id="resultado_ej1"
+            class="hidden bg-gray-800 border border-accent/30 rounded-xl px-4 py-3 text-accent font-mono text-sm text-center"
+          ></div>
+
+          <!-- Código -->
+          <!-- <div class="bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+            <pre
+              class="p-4 text-sm overflow-x-auto"
+            ><code><span class="cm text-gray-500">// 1. Capturamos los elementos del DOM</span>
+<span class="fn">const</span> <span class="el">btnHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'btn_hackaton03'</span>);
+<span class="fn">const</span> <span class="el">inputHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'input_hackaton03'</span>);
+
+<span class="cm text-gray-500">// 2. Agregamos el evento click al botón</span>
+<span class="el">btnHackaton03</span>.<span class="ev">addEventListener</span>(<span class="st">'click'</span>, <span class="fn">() =></span> {
+
+    <span class="cm text-gray-500">// 3. Convertimos el valor del input a número</span>
+    <span class="fn">const</span> <span class="st">valor</span> = <span class="ev">Number</span>(<span class="el">inputHackaton03</span>.<span class="st">value</span>);
+
+    <span class="cm text-gray-500">// 4. Validamos que sea un número</span>
+    <span class="fn">if</span> (<span class="ev">isNaN</span>(<span class="st">valor</span>) || <span class="el">inputHackaton03</span>.<span class="st">value</span> === <span class="st">''</span>) {
+        <span class="fn">return</span> <span class="ev">alert</span>(<span class="st">'No es un número válido'</span>);
+    }
+
+    <span class="cm text-gray-500">// 5. Verificamos si tiene 3 dígitos (100-999)</span>
+    <span class="fn">if</span> (<span class="st">valor</span> >= <span class="nb">100</span> && <span class="st">valor</span> <= <span class="nb">999</span>) {
+        <span class="ev">alert</span>(<span class="st">'✅ El número tiene 3 dígitos'</span>);
+    } <span class="fn">else</span> {
+        <span class="ev">alert</span>(<span class="st">'❌ El número NO tiene 3 dígitos'</span>);
+    }
+<span class="fn">}</span>);
+</code></pre>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Ejercicio 2 ======= -->
+    <section class="max-w-2xl mx-auto mt-12 px-4">
+      <!-- Encabezado desplegable -->
+      <button
+        data-ejercicio="ej2"
+        class="btn-accordion w-full flex items-center gap-4 p-4 bg-gray-800 rounded-2xl cursor-pointer hover:bg-gray-750 transition-colors group"
+      >
+        <span
+          class="w-12 h-12 rounded-xl bg-accent/15 text-accent font-bold flex items-center justify-center shrink-0"
+          >02</span
+        >
+        <p class="text-sm md:text-base flex-1">
+          Crea una función que retorne la potencia de un número dado, esta
+          función deberá recibir la potencia y el número a potenciar.
+        </p>
+        <svg
+          id="arrow-ej2"
+          class="accordion-arrow w-5 h-5 text-gray-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Contenido desplegable -->
+      <div class="accordion-content" id="ej2">
+        <div class="mt-3 space-y-4">
+          <!-- Input + Botón -->
+          <div class="flex flex-row justify-center items-center gap-4 py-2">
+            <input
+              type="text"
+              id="input_ej2_1"
+              placeholder="Numero:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <input
+              type="text"
+              id="input_ej2_2"
+              placeholder="Potencia:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <button
+              id="btn_ej2"
+              data-resultado="resultado_ej2"
+              class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+            >
+              Enviar
+            </button>
+          </div>
+
+          <!-- Resultado -->
+          <div
+            id="resultado_ej2"
+            class="hidden bg-gray-800 border border-accent/30 rounded-xl px-4 py-3 text-accent font-mono text-sm text-center"
+          ></div>
+
+          <!-- Código -->
+          <!-- <div class="bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+            <pre
+              class="p-4 text-sm overflow-x-auto"
+            ><code><span class="cm text-gray-500">// 1. Capturamos los elementos del DOM</span>
+<span class="fn">const</span> <span class="el">btnHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'btn_hackaton03'</span>);
+<span class="fn">const</span> <span class="el">inputHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'input_hackaton03'</span>);
+
+<span class="cm text-gray-500">// 2. Agregamos el evento click al botón</span>
+<span class="el">btnHackaton03</span>.<span class="ev">addEventListener</span>(<span class="st">'click'</span>, <span class="fn">() =></span> {
+
+    <span class="cm text-gray-500">// 3. Convertimos el valor del input a número</span>
+    <span class="fn">const</span> <span class="st">valor</span> = <span class="ev">Number</span>(<span class="el">inputHackaton03</span>.<span class="st">value</span>);
+
+    <span class="cm text-gray-500">// 4. Validamos que sea un número</span>
+    <span class="fn">if</span> (<span class="ev">isNaN</span>(<span class="st">valor</span>) || <span class="el">inputHackaton03</span>.<span class="st">value</span> === <span class="st">''</span>) {
+        <span class="fn">return</span> <span class="ev">alert</span>(<span class="st">'No es un número válido'</span>);
+    }
+
+    <span class="cm text-gray-500">// 5. Verificamos si tiene 3 dígitos (100-999)</span>
+    <span class="fn">if</span> (<span class="st">valor</span> >= <span class="nb">100</span> && <span class="st">valor</span> <= <span class="nb">999</span>) {
+        <span class="ev">alert</span>(<span class="st">'✅ El número tiene 3 dígitos'</span>);
+    } <span class="fn">else</span> {
+        <span class="ev">alert</span>(<span class="st">'❌ El número NO tiene 3 dígitos'</span>);
+    }
+<span class="fn">}</span>);
+</code></pre>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Ejercicio 3 ======= -->
+    <section class="max-w-2xl mx-auto mt-12 px-4">
+      <!-- Encabezado desplegable -->
+      <button
+        data-ejercicio="ej3"
+        class="btn-accordion w-full flex items-center gap-4 p-4 bg-gray-800 rounded-2xl cursor-pointer hover:bg-gray-750 transition-colors group"
+      >
+        <span
+          class="w-12 h-12 rounded-xl bg-accent/15 text-accent font-bold flex items-center justify-center shrink-0"
+          >03</span
+        >
+        <p class="text-sm md:text-base flex-1">
+          Crea una función que tome números y devuelva la suma de sus cubos.
+          sumOfCubes(1, 5, 9) ➞ 855
+        </p>
+        <svg
+          id="arrow-ej3"
+          class="accordion-arrow w-5 h-5 text-gray-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Contenido desplegable -->
+      <div class="accordion-content" id="ej3">
+        <div class="mt-3 space-y-4">
+          <!-- Input + Botón -->
+          <div class="flex flex-row justify-center items-center gap-4 py-2">
+            <input
+              type="text"
+              id="input_ej3"
+              placeholder="Ingrese numero:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <button
+              id="btn_ej3"
+              data-resultado="resultado_ej3"
+              class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+            >
+              Enviar
+            </button>
+          </div>
+
+          <!-- Resultado -->
+          <div
+            id="resultado_ej3"
+            class="hidden bg-gray-800 border border-accent/30 rounded-xl px-4 py-3 text-accent font-mono text-sm text-center"
+          ></div>
+
+          <!-- Código -->
+          <!-- <div class="bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+            <pre
+              class="p-4 text-sm overflow-x-auto"
+            ><code><span class="cm text-gray-500">// 1. Capturamos los elementos del DOM</span>
+<span class="fn">const</span> <span class="el">btnHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'btn_hackaton03'</span>);
+<span class="fn">const</span> <span class="el">inputHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'input_hackaton03'</span>);
+
+<span class="cm text-gray-500">// 2. Agregamos el evento click al botón</span>
+<span class="el">btnHackaton03</span>.<span class="ev">addEventListener</span>(<span class="st">'click'</span>, <span class="fn">() =></span> {
+
+    <span class="cm text-gray-500">// 3. Convertimos el valor del input a número</span>
+    <span class="fn">const</span> <span class="st">valor</span> = <span class="ev">Number</span>(<span class="el">inputHackaton03</span>.<span class="st">value</span>);
+
+    <span class="cm text-gray-500">// 4. Validamos que sea un número</span>
+    <span class="fn">if</span> (<span class="ev">isNaN</span>(<span class="st">valor</span>) || <span class="el">inputHackaton03</span>.<span class="st">value</span> === <span class="st">''</span>) {
+        <span class="fn">return</span> <span class="ev">alert</span>(<span class="st">'No es un número válido'</span>);
+    }
+
+    <span class="cm text-gray-500">// 5. Verificamos si tiene 3 dígitos (100-999)</span>
+    <span class="fn">if</span> (<span class="st">valor</span> >= <span class="nb">100</span> && <span class="st">valor</span> <= <span class="nb">999</span>) {
+        <span class="ev">alert</span>(<span class="st">'✅ El número tiene 3 dígitos'</span>);
+    } <span class="fn">else</span> {
+        <span class="ev">alert</span>(<span class="st">'❌ El número NO tiene 3 dígitos'</span>);
+    }
+<span class="fn">}</span>);
+</code></pre>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Ejercicio 4 ======= -->
+    <section class="max-w-2xl mx-auto mt-12 px-4">
+      <!-- Encabezado desplegable -->
+      <button
+        data-ejercicio="ej4"
+        class="btn-accordion w-full flex items-center gap-4 p-4 bg-gray-800 rounded-2xl cursor-pointer hover:bg-gray-750 transition-colors group"
+      >
+        <span
+          class="w-12 h-12 rounded-xl bg-accent/15 text-accent font-bold flex items-center justify-center shrink-0"
+          >04</span
+        >
+        <p class="text-sm md:text-base flex-1">
+          Escribe una función que tome la base y la altura de un triángulo y
+          devuelva su área. triArea(3, 2) ➞ 3
+        </p>
+        <svg
+          id="arrow-ej4"
+          class="accordion-arrow w-5 h-5 text-gray-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Contenido desplegable -->
+      <div class="accordion-content" id="ej4">
+        <div class="mt-3 space-y-4">
+          <!-- Input + Botón -->
+          <div class="flex flex-row justify-center items-center gap-4 py-2">
+            <input
+              type="text"
+              id="input_ej4_1"
+              placeholder="Ingrese base:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <input
+              type="text"
+              id="input_ej4_2"
+              placeholder="Ingrese altura:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <button
+              id="btn_ej4"
+              data-resultado="resultado_ej4"
+              class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+            >
+              Enviar
+            </button>
+          </div>
+
+          <!-- Resultado -->
+          <div
+            id="resultado_ej4"
+            class="hidden bg-gray-800 border border-accent/30 rounded-xl px-4 py-3 text-accent font-mono text-sm text-center"
+          ></div>
+
+          <!-- Código -->
+          <!-- <div class="bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+            <pre
+              class="p-4 text-sm overflow-x-auto"
+            ><code><span class="cm text-gray-500">// 1. Capturamos los elementos del DOM</span>
+<span class="fn">const</span> <span class="el">btnHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'btn_hackaton03'</span>);
+<span class="fn">const</span> <span class="el">inputHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'input_hackaton03'</span>);
+
+<span class="cm text-gray-500">// 2. Agregamos el evento click al botón</span>
+<span class="el">btnHackaton03</span>.<span class="ev">addEventListener</span>(<span class="st">'click'</span>, <span class="fn">() =></span> {
+
+    <span class="cm text-gray-500">// 3. Convertimos el valor del input a número</span>
+    <span class="fn">const</span> <span class="st">valor</span> = <span class="ev">Number</span>(<span class="el">inputHackaton03</span>.<span class="st">value</span>);
+
+    <span class="cm text-gray-500">// 4. Validamos que sea un número</span>
+    <span class="fn">if</span> (<span class="ev">isNaN</span>(<span class="st">valor</span>) || <span class="el">inputHackaton03</span>.<span class="st">value</span> === <span class="st">''</span>) {
+        <span class="fn">return</span> <span class="ev">alert</span>(<span class="st">'No es un número válido'</span>);
+    }
+
+    <span class="cm text-gray-500">// 5. Verificamos si tiene 3 dígitos (100-999)</span>
+    <span class="fn">if</span> (<span class="st">valor</span> >= <span class="nb">100</span> && <span class="st">valor</span> <= <span class="nb">999</span>) {
+        <span class="ev">alert</span>(<span class="st">'✅ El número tiene 3 dígitos'</span>);
+    } <span class="fn">else</span> {
+        <span class="ev">alert</span>(<span class="st">'❌ El número NO tiene 3 dígitos'</span>);
+    }
+<span class="fn">}</span>);
+</code></pre>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Ejercicio 5 ======= -->
+    <section class="max-w-2xl mx-auto mt-12 px-4">
+      <!-- Encabezado desplegable -->
+      <button
+        data-ejercicio="ej5"
+        class="btn-accordion w-full flex items-center gap-4 p-4 bg-gray-800 rounded-2xl cursor-pointer hover:bg-gray-750 transition-colors group"
+      >
+        <span
+          class="w-12 h-12 rounded-xl bg-accent/15 text-accent font-bold flex items-center justify-center shrink-0"
+          >05</span
+        >
+        <p class="text-sm md:text-base flex-1">
+          Crea una función llamada calculator que recibe 3 parámetros, dos
+          números y una operación matemática (+,-,/,x,%), y si la operación no
+          es correcta que envié un mensaje “El parámetro no es reconocido”
+          calculator(2,"+", 2) ➞ 4
+        </p>
+        <svg
+          id="arrow-ej5"
+          class="accordion-arrow w-5 h-5 text-gray-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Contenido desplegable -->
+      <div class="accordion-content" id="ej5">
+        <div class="mt-3 space-y-4">
+          <!-- Input + Botón -->
+          <div class="flex flex-row justify-center items-center gap-4 py-2">
+            <!-- const inputEj51Num = document.getElementById("input_ej51_num");
+const inputEj5Op = document.getElementById("input_ej5_op");
+const inputEj52Num = document.getElementById("input_ej52_num"); -->
+            <input
+              type="text"
+              id="input_ej51_num"
+              placeholder="Ingrese base:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <input
+              type="text"
+              id="input_ej5_op"
+              placeholder="Ingrese altura:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <input
+              type="text"
+              id="input_ej52_num"
+              placeholder="Ingrese altura:"
+              class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+            />
+            <button
+              id="btn_ej5"
+              data-resultado="resultado_ej5"
+              class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+            >
+              Enviar
+            </button>
+          </div>
+
+          <!-- Resultado -->
+          <div
+            id="resultado_ej5"
+            class="hidden bg-gray-800 border border-accent/30 rounded-xl px-4 py-3 text-accent font-mono text-sm text-center"
+          ></div>
+
+          <!-- Código -->
+          <!-- <div class="bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+            <pre
+              class="p-4 text-sm overflow-x-auto"
+            ><code><span class="cm text-gray-500">// 1. Capturamos los elementos del DOM</span>
+<span class="fn">const</span> <span class="el">btnHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'btn_hackaton03'</span>);
+<span class="fn">const</span> <span class="el">inputHackaton03</span> = document.<span class="ev">getElementById</span>(<span class="st">'input_hackaton03'</span>);
+
+<span class="cm text-gray-500">// 2. Agregamos el evento click al botón</span>
+<span class="el">btnHackaton03</span>.<span class="ev">addEventListener</span>(<span class="st">'click'</span>, <span class="fn">() =></span> {
+
+    <span class="cm text-gray-500">// 3. Convertimos el valor del input a número</span>
+    <span class="fn">const</span> <span class="st">valor</span> = <span class="ev">Number</span>(<span class="el">inputHackaton03</span>.<span class="st">value</span>);
+
+    <span class="cm text-gray-500">// 4. Validamos que sea un número</span>
+    <span class="fn">if</span> (<span class="ev">isNaN</span>(<span class="st">valor</span>) || <span class="el">inputHackaton03</span>.<span class="st">value</span> === <span class="st">''</span>) {
+        <span class="fn">return</span> <span class="ev">alert</span>(<span class="st">'No es un número válido'</span>);
+    }
+
+    <span class="cm text-gray-500">// 5. Verificamos si tiene 3 dígitos (100-999)</span>
+    <span class="fn">if</span> (<span class="st">valor</span> >= <span class="nb">100</span> && <span class="st">valor</span> <= <span class="nb">999</span>) {
+        <span class="ev">alert</span>(<span class="st">'✅ El número tiene 3 dígitos'</span>);
+    } <span class="fn">else</span> {
+        <span class="ev">alert</span>(<span class="st">'❌ El número NO tiene 3 dígitos'</span>);
+    }
+<span class="fn">}</span>);
+</code></pre>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Ejercicio 5 ======= -->
+    <section class="max-w-2xl mx-auto mt-12 px-4">
+      <!-- Encabezado desplegable -->
+      <button
+        data-ejercicio="ej6"
+        class="btn-accordion w-full flex items-center gap-4 p-4 bg-gray-800 rounded-2xl cursor-pointer hover:bg-gray-750 transition-colors group"
+      >
+        <span
+          class="w-12 h-12 rounded-xl bg-accent/15 text-accent font-bold flex items-center justify-center shrink-0"
+          >06.1</span
+        >
+        <p class="text-sm md:text-base flex-1">
+          ¿Cómo defines una función? <br />
+          ¿Hasta cuantos argumentos puedes declarar en una función?
+        </p>
+        <svg
+          id="arrow-ej6"
+          class="accordion-arrow w-5 h-5 text-gray-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Contenido desplegable -->
+      <div class="accordion-content" id="ej6">
+        <div class="mt-3 space-y-4">
+          <!-- Input + Botón -->
+          <div class="flex flex-row justify-center items-center gap-4 py-2">
+          
+            <button
+              id="btn_ej6"
+              data-resultado="resultado_ej6"
+              class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+            >
+              Enviar
+            </button>
+          </div>
+
+          <!-- Resultado -->
+          <div
+            id="resultado_ej6"
+            class="hidden bg-gray-800 border border-accent/30 rounded-xl px-4 py-3 text-accent font-mono text-sm text-center"
+          ></div>
+        </div>
+      </div>
+    </section>
+  </body>
+
+  <script src="./app.js"></script>
+</html>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackaton 04</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Hackaton 04</h1>
+    <p style="text-align:center; opacity:.7; margin-top:-15px;">
+        Ejercicios practicos de JavaScript y HTTP — Nuevas funcionalidades ES6 y metodos de objetos nativos
+    </p>
+    <div class="divider"></div>
+    <br>
+    <div class="grid">
+        <div>
+            <h3>RETO 1</h3>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab(0)">Ejercicio.01</button>
+                <button class="tab" onclick="showTab(1)">Ejercicio.02</button>
+                <button class="tab" onclick="showTab(2)">Ejercicio.03</button>
+                <button class="tab" onclick="showTab(3)">Ejercicio.04</button>
+                <button class="tab" onclick="showTab(4)">Ejercicio.05</button>
+                <button class="tab" onclick="showTab(5)">Ejercicio.06</button>
+                <button class="tab" onclick="showTab(6)">Ejercicio.07</button>
+            </div>
+            <h3>RETO 2</h3>
+            <div class="tabs">
+                <button class="tab" onclick="showTab(7)">Ejercicio.01</button>
+                <button class="tab" onclick="showTab(8)">Ejercicio.02</button>
+                <button class="tab" onclick="showTab(9)">Ejercicio.03</button>
+                <button class="tab" onclick="showTab(10)">Ejercicio.04</button>
+                <button class="tab" onclick="showTab(11)">Ejercicio.05</button>
+                <button class="tab" onclick="showTab(12)">Ejercicio.06</button>
+                <button class="tab" onclick="showTab(13)">Ejercicio.07</button>
+                <button class="tab" onclick="showTab(14)">Ejercicio.08</button>
+                <button class="tab" onclick="showTab(15)">Ejercicio.09</button>
+                <button class="tab" onclick="showTab(16)">Ejercicio.10</button>
+                <button class="tab" onclick="showTab(17)">Ejercicio.11</button>
+                <button class="tab" onclick="showTab(18)">Ejercicio.12</button>
+                <button class="tab" onclick="showTab(19)">Ejercicio.13</button>
+                <button class="tab" onclick="showTab(20)">Ejercicio.14</button>
+                <button class="tab" onclick="showTab(21)">Ejercicio.15</button>
+                <button class="tab" onclick="showTab(22)">Ejercicio.16</button>
+                <button class="tab" onclick="showTab(23)">Ejercicio.17</button>
+                <button class="tab" onclick="showTab(24)">Ejercicio.18</button>
+                <button class="tab" onclick="showTab(25)">Ejercicio.19</button>
+                <button class="tab" onclick="showTab(26)">Ejercicio.20</button>
+                <button class="tab" onclick="showTab(27)">Ejercicio.21</button>
+                <button class="tab" onclick="showTab(28)">Ejercicio.22</button>
+            </div>
+            <div class="inputs">
+                <button class="tab clear-btn" onclick="limpiarTodo()">Limpiar Todo</button>
+            </div>
+        </div>
+        <!-- RETO 1 -->
+        <div>
+            <!-- EJERCICIO 1 -->
+            <div class="tab-content active">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>1. Crea una función que retorne la suma de dos números.</strong></p>
+                        <pre>
+function ej1() {
+
+    const a = Number(e1a.value);
+
+    const b = Number(e1b.value);
+
+    r1.textContent = a + b;
+
+}
+            </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="e1a" placeholder="Number 1">
+                            <input type="number" id="e1b" placeholder="Number 2">
+                            <button onclick="ej1()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="r1"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 2 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>2. Crea una función que retorne la potencia de un número dado, esta función deberá
+                                recibir la potencia y el número a potenciar.</strong></p>
+                        <pre>
+function eje2() {
+
+    const num = Number(eje2a.value);
+
+    const pot = Number(eje2b.value);
+
+    re2.textContent = num ** pot;
+
+}
+            </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="e2a" placeholder="Número">
+                            <input type="number" id="e2b" placeholder="Potencia">
+                            <button onclick="ej2()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="r2"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 3 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>3. Crea una función que tome números y devuelva la suma de sus cubos. sumOfCubes(1,
+                                5, 9) ➞
+                                855
+                                // Since 1^3 + 5^3 + 9^3 = 1 + 125 + 729 = 855</strong></p>
+                        <pre>
+function eje3() {
+
+    const a = Number(eje3a.value);
+
+    const b = Number(eje3b.value);
+
+    const c = Number(eje3c.value);
+
+    re3.textContent = a**3 + b**3 + c**3;
+
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="e3a" placeholder="N1">
+                            <input type="number" id="e3b" placeholder="N2">
+                            <input type="number" id="e3c" placeholder="N3">
+                            <button onclick="ej3()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="r3"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 4 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>4. Escribe una función que tome la base y la altura de un triángulo y devuelva su
+                                área.
+                                triArea(3, 2) ➞ 3</strong></p>
+                        <pre>
+function eje4() {
+
+    const base = Number(eje4a.value);
+
+    const altura = Number(eje4b.value);
+
+    re4.textContent = (base * altura) / 2;
+
+}
+            </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="e4a" placeholder="Base">
+                            <input type="number" id="e4b" placeholder="Altura">
+                            <button onclick="ej4()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="r4"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 5 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>5. Crea una función llamada calculator que recibe 3 parámetros, dos números y una
+                                operación matemática
+                                (+,-,/,x,%), y si la operación no es correcta que envié un mensaje “El parámetro no es
+                                reconocido” calculator(2,"+", 2) ➞ 4</strong></p>
+                        <p>Ingrese dos números y una operación (+, -, x, /, %):</p>
+                        <pre>
+function ej5() {
+    const calculator = (a, op, b) => {
+        switch (op) {
+            case "+": return a + b;
+            case "-": return a - b;
+            case "*":
+            case "x": return a * b;
+            case "/": return b !== 0 ? a / b : "No se puede dividir por 0";
+            case "%": return a % b;
+            default: return "El parámetro no es reconocido";
+        }
+    };
+    const a = Number(num1.value);
+    const b = Number(num2.value);
+    const op = operacion.value.trim();
+    r5.textContent = (!isNaN(a) && !isNaN(b))
+        ? calculator(a, op, b)
+        : "Ingrese números válidos";
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="num1" placeholder="2">
+                            <input type="text" id="operacion" placeholder="+, -, x, /, %)" maxlength="1">
+                            <input type="number" id="num2" placeholder="2">
+                            <button onclick="ej5()">Calcular</button>
+                        </div>
+                        <div class="resultado" id="r5"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 6 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p> <strong>1. ¿Cómo defines una función? </strong> </p>
+                        <pre>
+En JavaScript una función es un bloque de código reutilizable que se ejecuta cuando es llamado. Ahora
+Una función en JavaScript se define usando la palabra clave function o mediante funciones flecha (=>) introducidas en ES6.
+
+Existen varias formas de definir una función:
+
+    1. Declaración tradicional (Function Declaration)
+    function sumar(a, b) {
+        return a + b;
+    }
+    Caracteristicas destacadas
+        Puede llamarse antes o después de su definición (hoisting).
+
+    2. Expresión de función (Function Expression)
+    const sumar = function(a, b) {
+        return a + b;
+    };
+    Caracteristicas destacadas:
+        Se guarda en una variable y No puede llamarse antes de ser definida.
+
+    3. Función flecha (Arrow Function – ES6)
+    const sumar = (a, b) => a + b;
+    Caracteristicas destacadas:
+        Sintaxis moderna, Más limpia, Muy usada en ES6+
+                    </pre>
+                    </div>
+                </div>
+
+            </div>
+            <!-- EJERCICIO 7 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p> <strong>2. ¿Hasta cuantos argumentos puedes declarar en una función? </strong> </p>
+                        <pre>
+En JavaScript no existe un límite fijo práctico de argumentos definido por el lenguaje.
+
+Puedes declarar:
+    function ejemplo(a, b, c, d, e) {
+        return a + b + c + d + e;
+    }
+Pero lo recomendable es no usar demasiados parámetros por claridad.
+
+Parámetros ilimitados con REST (ES6)
+
+Si necesitas recibir muchos valores:
+function sumarTodo(...numeros) {
+    return numeros.reduce((acc, n) => acc + n, 0);
+}
+sumarTodo(1, 2, 3, 4, 5); // 15
+
+...numeros permite recibir una cantidad indefinida de argumentos.
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <!-- RETO 2 -->
+            <!-- EJERCICIO 1 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>1. Utilizando función arrow, crear una función que reciba como parámetros un nombre,
+                                apellido y edad y los retorne en un string concatenado “Hola mi nombre es sebastián
+                                yabiku y mi edad 33”</strong></p>
+                        <pre>
+function eje1() {
+    const saludo = (nombre, apellido, edad) =>
+        `Hola mi nombre es ${nombre} ${apellido} y mi edad ${edad} años`;
+    re1.textContent = saludo(eje1a.value, eje1b.value, eje1c.value);
+}
+                    </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje1a" placeholder="Nombre">
+                            <input type="text" id="eje1b" placeholder="Apellido">
+                            <input type="number" id="eje1c" placeholder="Edad">
+                            <button onclick="eje1()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re1"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 2 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>2. Cree una función que tome números y devuelva la suma de sus cubos.</strong></p>
+                        <p><strong>sumOfCubes(1, 5, 9) ➞ 855</strong></p>
+                        <p><strong>// Since 1^3 + 5^3 + 9^3 = 1 + 125 + 729 = 855</strong></p>
+                        <p>Ingrese números separados por coma:</p>
+                        <pre>
+function eje2() {
+
+    const sumOfCubes = (...nums) =>
+        nums.reduce((acc, n) => acc + n ** 3, 0);
+    const nums = eje2txt.value
+        .split(",")
+        .map(n => Number(n.trim()))
+        .filter(n => !isNaN(n));
+    re2.textContent = nums.length
+        ? sumOfCubes(...nums)
+        : "Ingrese números válidos";
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje2txt" placeholder="1,5,9">
+                            <button onclick="eje2()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re2"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 3 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>3. Crear una funcion que me retorne el tipo de valor entregado, invocar la función
+                                para los distintos tipos de js</strong></p>
+                        <pre>
+function eje3() {
+    const tipo = v =>
+        Array.isArray(v) ? "array"
+        : v === null ? "null"
+        : typeof v;
+    try {
+        const valor = eval(eje3txt.value);
+        re3.textContent = tipo(valor);
+    } catch {
+        re3.textContent = "Valor no válido";
+    }
+}
+
+ejemplo
+10, "hola", true, {}, []
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje3txt" placeholder='Ej: 10 o "hola" o true'>
+                            <button onclick="eje3()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re3"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 04 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>4. Crear una función que reciba n cantidad de argumentos y los sume ( utilizar
+                                parametros rest)</strong></p>
+                        <pre>
+function eje4() {
+
+    const sumar = (...nums) =>
+        nums.reduce((acc, n) => acc + n, 0);
+    const nums = eje4txt.value
+        .split(",")
+        .map(n => Number(n.trim()))
+        .filter(n => !isNaN(n));
+    re4.textContent = nums.length
+        ? sumar(...nums)
+        : "Ingrese números válidos";
+}
+
+//ejemplo de entrada
+1,2,3,4,5
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje4txt" placeholder="1,2,3,4,5">
+                            <button onclick="eje4()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re4"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 05 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>5. Crear una función que reciba un array de valores y filtre los valores que no son
+                                string</strong></p>
+                        <pre>
+function eje5() {
+
+    const valores = eje5txt.value
+        .split(",")
+        .map(v => v.trim());
+    re5.textContent = JSON.stringify(
+        valores.filter(v => isNaN(v) || v === "")
+    );
+}
+
+// ejemplo de entrada
+1,hola,true,JS,10
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje5txt" placeholder="1,hola,true,JS,10">
+                            <button onclick="eje5()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re5"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 06 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>6. Cree una función que tome una matriz de números y devuelva los números mínimos y
+                                máximos, en ese orden.</strong></p>
+                        <p><strong>minMax([1, 2, 3, 4, 5]) ➞ [1, 5]</strong></p>
+                        <pre>
+function eje6() {
+
+    const nums = eje6txt.value
+        .split(",")
+        .map(n => Number(n.trim()))
+        .filter(n => !isNaN(n));
+
+    re6.textContent = nums.length
+        ? JSON.stringify([Math.min(...nums), Math.max(...nums)])
+        : "Ingrese números válidos";
+}
+
+//ejemplo de entrada
+1,2,3,4,5
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje6txt" placeholder="1,2,3,4,5">
+                            <button onclick="eje6()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re6"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 07 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>7. Escriba una función que tome una matriz de 10 enteros (entre 0 y 9) y devuelva una
+                                cadena en forma de un número de teléfono.</strong></p>
+                        <p><strong>formatPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) ➞ "(123) 456-7890"</strong></p>
+                        <pre>
+function eje7() {
+
+    const nums = eje7txt.value
+        .split(",")
+        .map(n => Number(n.trim()))
+        .filter(n => Number.isInteger(n) && n >= 0 && n <= 9);
+    re7.textContent = nums.length === 10
+        ? `(${nums.slice(0,3).join("")}) ${nums.slice(3,6).join("")}-${nums.slice(6).join("")}`
+        : "Debe ingresar exactamente 10 números entre 0 y 9";
+}
+
+Ejemplo de entrada
+1,2,3,4,5,6,7,8,9,0
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje7txt" placeholder="1,2,3,4,5,6,7,8,9,0">
+                            <button onclick="eje7()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re7"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 08 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>8. Cree una función que tome una matriz de matrices con números. Devuelve una nueva
+                                matriz (única) con el mayor número de cada uno.</strong></p>
+                        <p><strong>findLargestNums([[4, 2, 7, 1], [20, 70, 40, 90], [1, 2, 0]]) ➞ [7, 90, 2]</strong>
+                        </p>
+                        <pre>
+function eje8() {
+
+    try {
+        const arr = JSON.parse(eje8txt.value);
+        re8.textContent = JSON.stringify(
+            arr.map(sub => Math.max(...sub))
+        );
+    } catch {
+        re8.textContent = "Ingrese un JSON válido";
+    }
+}
+
+//ejemplo de entrada
+[[4,2,7,1],[20,70,40,90],[1,2,0]]
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <textarea id="eje8txt" rows="3" placeholder='[[4,2,7,1],[20,70,40,90],[1,2,0]]'></textarea>
+                            <button onclick="eje8()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re8"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 09 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>9. Dada una palabra, escriba una función que devuelva el primer índice y el último
+                                índice de un carácter.</strong></p>
+                        <p><strong>charIndex("hello", "l") ➞ [2, 3]
+                                // The first "l" has index 2, the last "l" has index 3.</p></strong>
+                        <p><strong>charIndex("circumlocution", "c") ➞ [0, 8]
+                                // The first "c" has index 0, the last "c" has index 8.</p></strong>
+                        <pre>
+function eje9() {
+
+    const str = eje9txt.value;
+    const char = eje9char.value;
+    if (!str || !char) {
+        re9.textContent = "Ingrese palabra y carácter";
+        return;
+    }
+    const first = str.indexOf(char);
+    const last = str.lastIndexOf(char);
+    re9.textContent = first === -1
+        ? "Carácter no encontrado"
+        : JSON.stringify([first, last]);
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje9txt" placeholder="hello">
+                            <input type="text" id="eje9char" maxlength="1" placeholder="l">
+                            <button onclick="eje9()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re9"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 10 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>10. Escriba una función que convierta un objeto en una matriz, donde cada elemento
+                                representa un par clave-valor.</strong></p>
+                        <p><strong>toArray({ a: 1, b: 2 }) ➞ [["a", 1], ["b", 2]]</strong></p>
+                        <pre>
+function eje10() {
+
+    try {
+        re10.textContent = JSON.stringify(
+            Object.entries(JSON.parse(eje10txt.value))
+        );
+    } catch {
+        re10.textContent = "Ingrese un JSON válido";
+    }
+}
+
+//ejemplo de entrada
+{"a":1,"b":2}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <textarea id="eje10txt" rows="3" placeholder='{"a":1,"b":2}'></textarea>
+                            <button onclick="eje10()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re10"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 11 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>11. Cree la función que toma una matriz con objetos y devuelve la suma de los
+                                presupuestos de las personas.</strong></p>
+                        <p>getBudgets([
+                        <p>{ name: "John", age: 21, budget: 23000 },</p>
+                        <p>{ name: "Steve", age: 32, budget: 40000 },</p>
+                        <p>{ name: "Martin", age: 16, budget: 2700 }</p>
+                        <p>]) ➞ 65700</p>
+                        <pre>
+function eje11() {
+    try {
+        const arr = JSON.parse(eje11txt.value);
+        re11.textContent = arr
+            .reduce((acc, p) => acc + Number(p.budget || 0), 0);
+    } catch {
+        re11.textContent = "Ingrese un JSON válido";
+    }
+}
+//ejemplo de entrada
+[{"name":"John","age":21,"budget":23000},
+ {"name":"Steve","age":32,"budget":40000},
+ {"name":"Martin","age":16,"budget":2700}]
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <textarea id="eje11txt" rows="4"
+                                placeholder='[{"name":"John","age":21,"budget":23000},{"name":"Steve","age":32,"budget":40000},{"name":"Martin","age":16,"budget":2700}]'></textarea>
+                            <button onclick="eje11()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re11"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 12 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>12. Cree una función que tome una matriz de estudiantes y devuelva una matriz de
+                                nombres de estudiantes.</strong></p>
+                        <p><strong>getStudentNames([
+                                { name: "Steve" },
+                                { name: "Mike" },
+                                { name: "John" }
+                                ]) ➞ ["Becky", "John", "Steve"]</strong></p>
+                        <pre>
+function eje12() {
+
+    try {
+        const arr = JSON.parse(eje12txt.value);
+        re12.textContent = JSON.stringify(
+            arr.map(s => s.name)
+        );
+    } catch {
+        re12.textContent = "Ingrese un JSON válido";
+    }
+}
+
+Ejemplo de entrada
+[{"name":"Steve"},{"name":"Mike"},{"name":"John"}]
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <textarea id="eje12txt" rows="3"
+                                placeholder='[{"name":"Steve"},{"name":"Mike"},{"name":"John"}]'></textarea>
+                            <button onclick="eje12()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re12"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 13 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>13. Escriba una función que convierta un objeto en una matriz de claves y
+                                valores.</strong></p>
+                        <p><strong>objectToArray(
+                                {likes: 2, dislikes: 3, followers: 10}
+                                ) ➞ [["likes", 2], ["dislikes", 3], ["followers", 10]]</strong></p>
+                        <pre>
+function eje13() {
+
+    try {
+        const obj = JSON.parse(eje13txt.value);
+        re13.textContent = JSON.stringify(Object.entries(obj));
+    } catch {
+        re13.textContent = "Ingrese un JSON válido";
+    }
+}
+
+//Ejemplo de entrada
+{"likes":2,"dislikes":3,"followers":10}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <textarea id="eje13txt" rows="3"
+                                placeholder='{"likes":2,"dislikes":3,"followers":10}'></textarea>
+                            <button onclick="eje13()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re13"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 14 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>14. Cree una función donde, dado el número n, devuelva la suma de todos los números
+                                cuadrados incluyendo n.</strong></p>
+                        <p><strong>squaresSum(3) ➞ 14
+                                // 1² + 2² + 3² =
+                                // 1 + 4 + 9 =
+                                // 14</strong></p>
+                        <pre>
+function eje14() {
+
+    const n = Number(eje14num.value);
+    re14.textContent = !isNaN(n) && n > 0
+        ? Array.from({length: n}, (_, i) => (i+1) ** 2)
+              .reduce((a,b) => a + b, 0)
+        : "Ingrese un número válido mayor a 0";
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="eje14num" placeholder="3">
+                            <button onclick="eje14()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re14"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 15 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>15. Cree una función para multiplicar todos los valores en una matriz por la cantidad
+                                de valores en la matriz dada</strong></p>
+                        <p><strong>multiplyByLength([2, 3, 1, 0]) ➞ [8, 12, 4, 0]</strong></p>
+                        <pre>
+function eje15() {
+
+    const nums = eje15txt.value
+        .split(",")
+        .map(n => Number(n.trim()))
+        .filter(n => !isNaN(n));
+    re15.textContent = nums.length
+        ? JSON.stringify(nums.map(n => n * nums.length))
+        : "Ingrese números válidos";
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje15txt" placeholder="2,3,1,0">
+                            <button onclick="eje15()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re15"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 16 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>16. Cree una función que tome un número como argumento y devuelva una matriz de
+                                números contando desde este número a cero.</strong></p>
+                        <p><strong>countdown(5) ➞ [5, 4, 3, 2, 1, 0]</strong></p>
+                        <pre>
+function eje16() {
+
+    const n = Number(eje16num.value);
+
+    re16.textContent = !isNaN(n) && n >= 0
+        ? JSON.stringify(Array.from({length: n + 1}, (_, i) => n - i))
+        : "Ingrese un número válido mayor o igual a 0";
+}                            
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="number" id="eje16num" placeholder="5">
+                            <button onclick="eje16()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re16"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 17 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>17. ree una función que tome una matriz y devuelva la diferencia entre los números
+                                más grandes y más pequeños.</strong></p>
+                        <p><strong>diffMaxMin([10, 4, 1, 4, -10, -50, 32, 21]) ➞ 82
+                                // Smallest number is -50, biggest is 32.</strong></p>
+                        <pre>
+function eje17() {
+
+    const nums = eje17txt.value
+        .split(",")
+        .map(n => Number(n.trim()))
+        .filter(n => !isNaN(n));
+    nums.length
+        ? re17.textContent = Math.max(...nums) - Math.min(...nums)
+        : re17.textContent = "Ingrese números válidos";
+}
+
+//Ejemplo de entrada
+10,4,1,4,-10,-50,32,21
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje17txt" placeholder="10,4,1,4,-10,-50,32,21">
+                            <button onclick="eje17()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re17"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 18 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>18. Cree una función que filtre las cadenas de una matriz y devuelva una nueva matriz
+                                que solo contenga enteros.</strong></p>
+                        <p><strong>filterList([1, 2, 3, "x", "y", 10]) ➞ [1, 2, 3, 10]</strong></p>
+                        <pre>
+function eje18() {
+    const texto = eje18txt.value.trim();
+    if (texto === "") {
+        re18.textContent = "Ingrese valores separados por coma";
+        return;
+    }
+    const array = texto.split(",").map(item => item.trim());
+    const procesado = array.map(item => {
+        return !isNaN(item) && item !== "" 
+            ? Number(item) 
+            : item;
+    });
+    const filterList = arr =>
+        arr.filter(n => Number.isInteger(n));
+    const resultado = filterList(procesado);
+    re18.textContent = JSON.stringify(resultado);
+}
+            </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje18txt" placeholder="1,2,3,x,y,10">
+                            <button onclick="eje18()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re18"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 19 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>19. Cree una función que tome dos argumentos (elemento, tiempos). El primer argumento
+                                (elemento) es el elemento que necesita repetirse, mientras que el segundo argumento
+                                (veces) es la cantidad de veces que se debe repetir el elemento. Devuelve el resultado
+                                en una matriz.</strong></p>
+                        <p><strong>repeat(13, 5) ➞ [13, 13, 13, 13, 13]</strong></p>
+                        <pre>
+function eje19() {
+    const elemento = eje19el.value.trim();
+    const veces = Number(eje19times.value);
+    if (elemento === "") {
+        re19.textContent = "Ingrese un elemento válido";
+        return;
+    }
+    if (isNaN(veces) || veces <= 0) {
+        re19.textContent = "Ingrese una cantidad válida mayor a 0";
+        return;
+    }
+    const repeat = (el, times) =>
+        Array(times).fill(
+            isNaN(el) ? el : Number(el)
+        );
+    re19.textContent = JSON.stringify(repeat(elemento, veces));
+}
+            </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje19el" placeholder="Elemento a repetir">
+                            <input type="number" id="eje19times" placeholder="Cantidad de veces">
+                            <button onclick="eje19()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re19"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 20 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>20. Escriba una función, .vreplace () que extienda el prototipo de cadena
+                                reemplazando todas las vocales en una cadena con una vocal especificada.</strong></p>
+                        <p><strong>"apples and bananas".vreplace("u") ➞ "upplus und bununus"</strong></p>
+                        <pre>
+String.prototype.vreplace = function(vocal) {
+    return this.replace(/[aeiou]/gi, vocal);
+};
+function eje20() {
+    const texto = eje20txt.value.trim();
+    const vocal = eje20vocal.value.trim().toLowerCase();
+    // Validaciones
+    if (texto === "" || vocal === "") {
+        re20.textContent = "Ingrese texto y una vocal";
+        return;
+    }
+    if (!"aeiou".includes(vocal)) {
+        re20.textContent = "Debe ingresar una vocal válida (a,e,i,o,u)";
+        return;
+    }
+    re20.textContent = texto.vreplace(vocal);
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje20txt" placeholder="Ingrese una frase">
+                            <input type="text" id="eje20vocal" maxlength="1" placeholder="Vocal">
+                            <button onclick="eje20()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re20"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 21 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>21. Te dan una cadena de palabras. Debe encontrar la palabra "Nemo" y devolver una
+                                cadena como esta: "¡Encontré a Nemo en [el orden de la palabra que encuentra
+                                nemo]!".</strong></p>
+                        <p><strong>findNemo("I am finding Nemo !") ➞ "I found Nemo at 4!"</strong></p>
+                        <pre>
+function eje21() {
+    const findNemo = str => {
+        const arr = str.split(" ");
+        const index = arr.indexOf("Nemo");
+        return `I found Nemo at ${index+1}!`;
+    };
+    re21.textContent =
+        findNemo("I am finding Nemo !");
+}
+                        </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje21txt" placeholder="Ingrese una frase">
+                            <button onclick="eje21()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re21"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- EJERCICIO 22 -->
+            <div class="tab-content">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>22. Cree una función que capitalice la última letra de cada palabra.
+                            </strong></p>
+                        <p><strong>capLast("hello") ➞ "hellO"</strong></p>
+                        <pre>
+function eje22() {
+    const texto = eje22txt.value.trim();
+    if (texto === "") {
+        re22.textContent = "Ingrese texto";
+        return;
+    }
+    const capLast = str =>
+        str.split(" ")
+           .map(w => 
+                w.length > 1
+                ? w.slice(0,-1) + w.slice(-1).toUpperCase()
+                : w.toUpperCase()
+           )
+           .join(" ");
+    re22.textContent = capLast(texto);
+}                       
+                    </pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="inputs">
+                            <input type="text" id="eje22txt" placeholder="Ingrese texto">
+                            <button onclick="eje22()">Ejecutar</button>
+                        </div>
+                        <div class="resultado" id="re22"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <br>
+    <div class="divider"></div>
+    <footer style="text-align:center; margin-top:40px; opacity:.6;">
+        Desarrollado por Richard Asto • 2026
+    </footer>
+</body>
+
+</html>

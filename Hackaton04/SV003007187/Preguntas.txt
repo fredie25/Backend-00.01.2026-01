@@ -1,0 +1,9 @@
+-  ¿Cómo defines una función?
+Una función es un bloque de código que realiza una acción o devuelve un valor. Las funciones son código personalizado, definido por los programadores y reutilizable, que permite que los programas sean más modulares y eficientes.
+Las funciones se definen o declaran con la functionpalabra clave funct, seguida del nombre de la función. Los nombres de las funciones siguen las mismas reglas que las variables: pueden contener letras, números, guiones bajos y signos de dólar.
+ y suelen escribirse en mayúsculas y minúsculas . El nombre va seguido de un par de paréntesis, que pueden usarse para parámetros opcionales. El código de la función se encuentra entre llaves, 
+ al igual que una sentencia for o una sentencia if .
+
+-  ¿Hasta cuantos argumentos puedes declarar en una función?
+las funciones pueden llegar a tener  0 argumentos, 1 argumento, 2 o más argumentos, si tienen una cantidad indefinida de argumentos se puede utilizar (...numeros) porque permite recibir cualquier cantidad.
+es importante saber tener en cuenta que JS no te pide que se tomen todos los argumentos, si falta alguno lo va a devolver como undefined.

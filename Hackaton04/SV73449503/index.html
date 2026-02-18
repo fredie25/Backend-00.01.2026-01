@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicios JS</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --btn: #0f766e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 32px auto;
+        padding: 0 16px 24px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+      }
+
+      p {
+        margin: 0 0 20px;
+        color: var(--muted);
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .item {
+        display: grid;
+        grid-template-columns: 62px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--card);
+      }
+
+      .num {
+        font-weight: 700;
+        color: #0b3d91;
+      }
+
+      .txt {
+        line-height: 1.35;
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        background: var(--btn);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+
+      #output {
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #0b1020;
+        color: #d1fae5;
+        min-height: 140px;
+        padding: 12px;
+        white-space: pre-wrap;
+      }
+
+      #quiz25 {
+        display: none;
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #ffffff;
+        padding: 14px;
+      }
+
+      #quiz25 h3 {
+        margin: 0 0 12px;
+      }
+
+      .quiz-row {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      .quiz-row select {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 9px;
+        font-size: 15px;
+      }
+
+      #quiz25-result {
+        margin-top: 10px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Ejercicio de JavaScript</h1>
+
+      <section class="list">
+        <article class="item"><div class="num">01</div><div class="txt">Crea una función que retorne la suma de dos números.</div><button class="btn" onclick="runExercise(1)">Ver</button></article>
+        <article class="item"><div class="num">02</div><div class="txt">Crea una función que retorne la potencia de un número (recibe base y exponente).</div><button class="btn" onclick="runExercise(2)">Ver</button></article>
+        <article class="item"><div class="num">03</div><div class="txt">Crea una función que tome números y devuelva la suma de sus cubos.</div><button class="btn" onclick="runExercise(3)">Ver</button></article>
+        <article class="item"><div class="num">04</div><div class="txt">Función que tome base y altura de un triángulo y devuelva su área.</div><button class="btn" onclick="runExercise(4)">Ver</button></article>
+        <article class="item"><div class="num">05</div><div class="txt">Crear función <code>calculator</code> con operaciones (+, -, /, x, %).</div><button class="btn" onclick="runExercise(5)">Ver</button></article>
+        <article class="item"><div class="num">06</div><div class="txt">Función que retorne el tipo de valor entregado.</div><button class="btn" onclick="runExercise(6)">Ver</button></article>
+        <article class="item"><div class="num">07</div><div class="txt">Función que reciba n argumentos y los sume (rest).</div><button class="btn" onclick="runExercise(7)">Ver</button></article>
+        <article class="item"><div class="num">08</div><div class="txt">Función que filtre los valores que no son string.</div><button class="btn" onclick="runExercise(8)">Ver</button></article>
+        <article class="item"><div class="num">09</div><div class="txt">Función que tome una matriz y devuelva mínimo y máximo.</div><button class="btn" onclick="runExercise(9)">Ver</button></article>
+        <article class="item"><div class="num">10</div><div class="txt">Dar formato a una matriz de 10 dígitos como número telefónico.</div><button class="btn" onclick="runExercise(10)">Ver</button></article>
+        <article class="item"><div class="num">11</div><div class="txt">Devolver el mayor número de cada submatriz.</div><button class="btn" onclick="runExercise(11)">Ver</button></article>
+        <article class="item"><div class="num">12</div><div class="txt">Primer y último índice de un carácter en una palabra.</div><button class="btn" onclick="runExercise(12)">Ver</button></article>
+        <article class="item"><div class="num">13</div><div class="txt">Convertir objeto en matriz de pares clave-valor.</div><button class="btn" onclick="runExercise(13)">Ver</button></article>
+        <article class="item"><div class="num">14</div><div class="txt">Suma de presupuestos de personas.</div><button class="btn" onclick="runExercise(14)">Ver</button></article>
+        <article class="item"><div class="num">15</div><div class="txt">Obtener arreglo de nombres de estudiantes.</div><button class="btn" onclick="runExercise(15)">Ver</button></article>
+        <article class="item"><div class="num">16</div><div class="txt">Suma de cuadrados desde 1 hasta n.</div><button class="btn" onclick="runExercise(16)">Ver</button></article>
+        <article class="item"><div class="num">17</div><div class="txt">Multiplicar todos los valores por la longitud del arreglo.</div><button class="btn" onclick="runExercise(17)">Ver</button></article>
+        <article class="item"><div class="num">18</div><div class="txt">Crear una cuenta regresiva hasta cero.</div><button class="btn" onclick="runExercise(18)">Ver</button></article>
+        <article class="item"><div class="num">19</div><div class="txt">Diferencia entre el mayor y el menor número.</div><button class="btn" onclick="runExercise(19)">Ver</button></article>
+        <article class="item"><div class="num">20</div><div class="txt">Filtrar una matriz y dejar solo enteros.</div><button class="btn" onclick="runExercise(20)">Ver</button></article>
+        <article class="item"><div class="num">21</div><div class="txt">Repetir un elemento una cantidad de veces en un arreglo.</div><button class="btn" onclick="runExercise(21)">Ver</button></article>
+        <article class="item"><div class="num">22</div><div class="txt">Extender String con <code>vreplace()</code> para reemplazar vocales.</div><button class="btn" onclick="runExercise(22)">Ver</button></article>
+        <article class="item"><div class="num">23</div><div class="txt">Buscar la palabra Nemo y devolver su posición.</div><button class="btn" onclick="runExercise(23)">Ver</button></article>
+        <article class="item"><div class="num">24</div><div class="txt">Capitalizar la última letra de cada palabra.</div><button class="btn" onclick="runExercise(24)">Ver</button></article>
+        <article class="item"><div class="num">25</div><div class="txt">Elige 2 opciones correctas: ¿Cómo defines una función? y ¿Hasta cuántos argumentos puedes declarar en una función?</div><button class="btn" onclick="runExercise(25)">Ver</button></article>
+      </section>
+
+      <pre id="output">Resultado aparecerá aquí...</pre>
+
+      <section id="quiz25">
+        <h3>Ejercicio 25: Elige las 2 opciones correctas</h3>
+
+        <div class="quiz-row">
+          <label for="q25-definicion">¿Cómo defines una función?</label>
+          <select id="q25-definicion">
+            <option value="">Selecciona una opción</option>
+            <option value="Las funciones son objetos de primera clase, es decir, se pueden manipular y transmitir como cualquier otro objeto.">Las funciones son objetos de primera clase, es decir, se pueden manipular y transmitir como cualquier otro objeto.</option>
+            <option value="Una función solo sirve para imprimir texto.">Una función solo sirve para imprimir texto.</option>
+            <option value="Una función no se puede pasar como argumento.">Una función no se puede pasar como argumento.</option>
+          </select>
+        </div>
+
+        <div class="quiz-row">
+          <label for="q25-args">¿Hasta cuántos argumentos puedes declarar en una función?</label>
+          <select id="q25-args">
+            <option value="">Selecciona una opción</option>
+            <option value="Solo 2">Solo 2</option>
+            <option value="Hasta 255 argumentos">Hasta 255 argumentos</option>
+            <option value="Solo 10">Solo 10</option>
+          </select>
+        </div>
+
+        <button class="btn" onclick="validarQuiz25()">Validar</button>
+        <div id="quiz25-result"></div>
+      </section>
+    </main>
+
+    <script src="index.js"></script>
+  </body>
+</html>
