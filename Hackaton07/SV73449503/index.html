@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hackaton 07</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1100px; margin: 24px auto; padding: 0 14px; background: #0f1115; color: #e9edf2; }
+    .top { display: flex; align-items: center; gap: 10px; }
+    .logo { width: 52px; height: 52px; }
+    h1 { margin: 0; color: #48c774; }
+    .box { background: #1b1f27; padding: 12px; border-radius: 10px; margin-top: 12px; }
+    input, select, button { padding: 8px; margin: 6px 0; width: 100%; background: #0f131a; color: #eef3f7; border: 1px solid #384455; border-radius: 8px; }
+    button { background: #1f56c9; border-color: #1f56c9; cursor: pointer; }
+    button:hover { background: #2a66e0; }
+    pre { display: none; }
+    small { color: #97a4b3; }
+    .result-box { background: #151922; border: 1px solid #2b3442; border-radius: 12px; min-height: 240px; padding: 18px; margin-top: 8px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 10px; }
+    .card { background: #1f56c9; color: #fff; border-radius: 12px; padding: 18px; }
+    .card img { width: 128px; height: 128px; border-radius: 12px; object-fit: cover; border: 4px solid #5bd4d1; display: block; margin-bottom: 10px; }
+    .card h4 { margin: 0 0 8px 0; font-size: 24px; }
+    .card p { margin: 4px 0; font-size: 18px; line-height: 1.35; }
+    .placeholder { color: #97a4b3; text-align: center; padding: 44px 10px; }
+    .loading { display: flex; align-items: center; gap: 10px; color: #c7d0da; padding: 12px; }
+    .spinner { width: 20px; height: 20px; border: 3px solid #2d3b52; border-top-color: #5bd4d1; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h1>Hackaton 07</h1>
+  </div>
+
+  <div class="box">
+    <label>Consulta:</label>
+    <select id="tipo">
+      <option value="github">GitHub usuario</option>
+      <option value="clima">Clima por ciudad</option>
+      <option value="dolar">Tipo de cambio USD/PEN</option>
+      <option value="pokemones">Lista de Pokemones</option>
+      <option value="poderes">Poderes de un Pokemon</option>
+      <option value="rick">Personajes Rick and Morty</option>
+      <option value="detalleRick">Detalle personaje Rick and Morty (id)</option>
+      <option value="cocteles">Top 10 bebidas/cocteles</option>
+      <option value="productos">Productos de tienda</option>
+      <option value="fotos">Fotos por tema y tamaño</option>
+      <option value="citas">Citas famosas</option>
+      <option value="estrenos">Top peliculas de estreno</option>
+      <option value="detallePelicula">Detalle de pelicula</option>
+      <option value="usuario">Usuario ficticio</option>
+      <option value="marte">Datos de Marte (NASA)</option>
+    </select>
+
+    <label>Parámetro (usuario/ciudad/id/titulo):</label>
+    <input id="param" placeholder="Ej: rpinedaec83, pikachu, 1" />
+    <label>Tamaño foto (solo para Fotos):</label>
+    <input id="size" placeholder="Ej: 240x160" />
+
+    <button onclick="ejecutar()">Consultar</button>
+    <small>Ejemplos: Clima=Lima, Fotos=montaña + 300x200, Pelicula detalle=603</small>
+  </div>
+
+  <h3>Resultado</h3>
+  <div class="result-box">
+    <div id="loading" class="loading" style="display:none;">
+      <span class="spinner"></span>
+      <span>Consultando API, espera un momento...</span>
+    </div>
+    <div id="cards" class="cards"></div>
+    <div id="placeholder" class="placeholder">Selecciona una consulta y pulsa "Consultar".</div>
+  </div>
+  <pre id="out" aria-hidden="true"></pre>
+
+  <script>
+    const fallbackMovies = [
+      { id: 603, title: "The Matrix", release_date: "1999-03-31", vote_average: 8.7, overview: "Un hacker descubre la verdad de su realidad.", poster_url: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", genre: "Ciencia ficcion", runtime: 136 },
+      { id: 155, title: "The Dark Knight", release_date: "2008-07-16", vote_average: 8.5, overview: "Batman enfrenta al Joker en Gotham.", poster_url: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg", genre: "Accion", runtime: 152 },
+      { id: 157336, title: "Interstellar", release_date: "2014-11-05", vote_average: 8.4, overview: "Un viaje espacial para salvar a la humanidad.", poster_url: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", genre: "Aventura", runtime: 169 },
+      { id: 299536, title: "Avengers: Infinity War", release_date: "2018-04-25", vote_average: 8.2, overview: "Los Avengers enfrentan a Thanos.", poster_url: "https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg", genre: "Superheroes", runtime: 149 },
+      { id: 447365, title: "Guardians of the Galaxy Vol. 3", release_date: "2023-05-03", vote_average: 8.0, overview: "Los Guardianes viven una nueva misión.", poster_url: "https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg", genre: "Ciencia ficcion", runtime: 150 },
+    ];
+
+    class ApiGateway {
+      async consultar(tipo, p = "", size = "") {
+        if (tipo === "clima") {
+          try {
+            const geo = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(p || "Lima")}&count=1&language=es&format=json`);
+            const geoData = await geo.json();
+            const place = geoData?.results?.[0];
+            if (!place) throw new Error("Sin ciudad");
+            const w = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&current_weather=true&timezone=auto`);
+            const wData = await w.json();
+            return {
+              city: place.name,
+              country: place.country || "",
+              temperature: wData?.current_weather?.temperature,
+              windspeed: wData?.current_weather?.windspeed,
+            };
+          } catch (_e) {
+            return { city: p || "Lima", country: "Peru", temperature: 24, windspeed: 12, source: "fallback" };
+          }
+        }
+
+        if (tipo === "fotos") {
+          const match = (size || "240x160").match(/^(\d{2,4})x(\d{2,4})$/i);
+          const width = match ? Number(match[1]) : 240;
+          const height = match ? Number(match[2]) : 160;
+          const tema = p || "naturaleza";
+          return {
+            photos: Array.from({ length: 8 }, (_, i) => ({
+              tema,
+              size: `${width}x${height}`,
+              url: `https://loremflickr.com/${width}/${height}/${encodeURIComponent(tema)}?lock=${i + 1}`,
+            })),
+          };
+        }
+
+        if (tipo === "citas") {
+          try {
+            const res = await fetch("https://api.quotable.io/quotes/random?limit=8");
+            if (!res.ok) throw new Error("No OK");
+            const quotes = await res.json();
+            return { quotes };
+          } catch (_e) {
+            return {
+              source: "fallback",
+              quotes: [
+                { content: "La disciplina tarde o temprano vencerá a la inteligencia.", author: "Yokoi Kenji" },
+                { content: "Nunca es tarde para ser lo que podrías haber sido.", author: "George Eliot" },
+                { content: "Aprender es un tesoro que seguirá a su dueño.", author: "Proverbio chino" },
+              ],
+            };
+          }
+        }
+
+        if (tipo === "estrenos") {
+          return { source: "fallback", results: fallbackMovies };
+        }
+
+        if (tipo === "detallePelicula") {
+          const q = (p || "603").toLowerCase();
+          const found = fallbackMovies.find((m) => String(m.id) === q || m.title.toLowerCase().includes(q)) || fallbackMovies[0];
+          return { ...found, source: "fallback" };
+        }
+
+        if (tipo === "dolar") {
+          try {
+            const res = await fetch("https://api.frankfurter.app/latest?from=USD&to=PEN");
+            if (!res.ok) throw new Error("No OK");
+            return res.json();
+          } catch (_e) {
+            return { rates: { PEN: 3.75 }, date: new Date().toISOString().slice(0, 10), source: "fallback" };
+          }
+        }
+
+        if (tipo === "marte") {
+          try {
+            const res = await fetch("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY");
+            if (!res.ok) throw new Error("No OK");
+            return res.json();
+          } catch (_e) {
+            return {
+              source: "fallback",
+              photos: [{
+                img_src: "https://mars.nasa.gov/system/resources/detail_files/25742_PIA25343-FigureA-web.jpg",
+                earth_date: "2021-09-05",
+                rover: { name: "Curiosity" },
+                camera: { full_name: "Mast Camera" },
+              }],
+            };
+          }
+        }
+
+        const rutas = {
+          github: () => `https://api.github.com/users/${p || "rpinedaec83"}`,
+          pokemones: () => "https://pokeapi.co/api/v2/pokemon?limit=199",
+          poderes: () => `https://pokeapi.co/api/v2/pokemon/${(p || "pikachu").toLowerCase()}`,
+          rick: () => "https://rickandmortyapi.com/api/character",
+          detalleRick: () => `https://rickandmortyapi.com/api/character/${p || 1}`,
+          cocteles: () => "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a",
+          productos: () => "https://fakestoreapi.com/products",
+          usuario: () => "https://randomuser.me/api/",
+        };
+        const url = rutas[tipo]();
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Error en la API");
+        return res.json();
+      }
+    }
+
+    const gateway = new ApiGateway();
+    const cards = document.getElementById("cards");
+    const loading = document.getElementById("loading");
+    const placeholder = document.getElementById("placeholder");
+    const tipoSelect = document.getElementById("tipo");
+    const paramInput = document.getElementById("param");
+    const sizeInput = document.getElementById("size");
+
+    function updateInputs() {
+      const tipo = tipoSelect.value;
+      sizeInput.disabled = tipo !== "fotos";
+      if (tipo === "fotos") {
+        paramInput.placeholder = "Tema foto. Ej: naturaleza";
+      } else if (tipo === "clima") {
+        paramInput.placeholder = "Ciudad. Ej: Lima";
+      } else if (tipo === "detallePelicula") {
+        paramInput.placeholder = "ID o titulo. Ej: 603 o Matrix";
+      } else {
+        paramInput.placeholder = "Ej: rpinedaec83, pikachu, 1";
+      }
+    }
+    tipoSelect.addEventListener("change", updateInputs);
+    updateInputs();
+
+    function fallbackImage(texto) {
+      const txt = encodeURIComponent((texto || "API").slice(0, 10));
+      return `https://dummyimage.com/120x120/5bd4d1/003366.png&text=${txt}`;
+    }
+
+    function makeCard({ titulo, imagen, lineas }) {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      img.src = imagen || fallbackImage(titulo);
+      img.alt = titulo;
+
+      const h4 = document.createElement("h4");
+      h4.textContent = titulo;
+
+      card.appendChild(img);
+      card.appendChild(h4);
+
+      lineas.forEach((linea) => {
+        const p = document.createElement("p");
+        p.textContent = linea;
+        card.appendChild(p);
+      });
+
+      return card;
+    }
+
+    function renderCards(tipo, data) {
+      cards.innerHTML = "";
+      const elementos = [];
+
+      if (tipo === "github") {
+        elementos.push({
+          titulo: data.login,
+          imagen: data.avatar_url,
+          lineas: [
+            `Nombre: ${data.name || "Sin dato"}`,
+            `Repos: ${data.public_repos}`,
+            `Seguidores: ${data.followers}`,
+          ],
+        });
+      }
+
+      if (tipo === "dolar") {
+        const pen = data?.rates?.PEN;
+        elementos.push({
+          titulo: "Cambio USD a PEN",
+          imagen: fallbackImage("USD/PEN"),
+          lineas: [
+            `1 USD = ${pen || "N/D"} PEN`,
+            `Fecha: ${data.date || "N/D"}`,
+            `Base: USD`,
+            `Moneda destino: PEN`,
+          ],
+        });
+      }
+
+      if (tipo === "clima") {
+        elementos.push({
+          titulo: `${data.city || "Ciudad"}${data.country ? ", " + data.country : ""}`,
+          imagen: fallbackImage("Clima"),
+          lineas: [
+            `Temperatura: ${data.temperature ?? "N/D"} °C`,
+            `Viento: ${data.windspeed ?? "N/D"} km/h`,
+            `Estado: ${data.source === "fallback" ? "Respaldo" : "Actual"}`,
+            `Zona: ${data.country || "Sin dato"}`,
+          ],
+        });
+      }
+
+      if (tipo === "pokemones") {
+        (data.results || []).slice(0, 199).forEach((p, i) => {
+          elementos.push({
+            titulo: p.name,
+            imagen: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`,
+            lineas: [
+              `Pokemon #${i + 1}`,
+              `Tipo: Basico`,
+              `Region: Kanto`,
+            ],
+          });
+        });
+      }
+
+      if (tipo === "poderes") {
+        elementos.push({
+          titulo: data.name,
+          imagen: data?.sprites?.front_default,
+          lineas: [
+            `Altura: ${data.height}`,
+            `Peso: ${data.weight}`,
+            `Poderes: ${(data.abilities || []).map((a) => a.ability.name).slice(0, 4).join(", ") || "N/D"}`,
+            `Experiencia base: ${data.base_experience ?? "N/D"}`,
+            `Tipo: ${(data.types || []).map((t) => t.type.name).join(", ") || "N/D"}`,
+          ],
+        });
+      }
+
+      if (tipo === "rick") {
+        (data.results || []).slice(0, 8).forEach((c) => {
+          elementos.push({
+            titulo: c.name,
+            imagen: c.image,
+            lineas: [
+              `Estado: ${c.status}`,
+              `Especie: ${c.species}`,
+            ],
+          });
+        });
+      }
+
+      if (tipo === "detalleRick") {
+        elementos.push({
+          titulo: data.name,
+          imagen: data.image,
+          lineas: [
+            `Estado: ${data.status}`,
+            `Especie: ${data.species}`,
+            `Genero: ${data.gender}`,
+          ],
+        });
+      }
+
+      if (tipo === "cocteles") {
+        (data.drinks || []).slice(0, 8).forEach((d) => {
+          elementos.push({
+            titulo: d.strDrink,
+            imagen: d.strDrinkThumb,
+            lineas: [
+              `Categoria: ${d.strCategory || "N/D"}`,
+              `Tipo: ${d.strAlcoholic || "N/D"}`,
+            ],
+          });
+        });
+      }
+
+      if (tipo === "productos") {
+        (data || []).slice(0, 8).forEach((p) => {
+          elementos.push({
+            titulo: p.title.slice(0, 22),
+            imagen: p.image,
+            lineas: [
+              `Precio: $${p.price}`,
+              `Categoria: ${p.category}`,
+            ],
+          });
+        });
+      }
+
+      if (tipo === "fotos") {
+        (data.photos || []).slice(0, 8).forEach((f, i) => {
+          elementos.push({
+            titulo: `${f.tema} #${i + 1}`,
+            imagen: f.url,
+            lineas: [`Tamaño: ${f.size}`],
+          });
+        });
+      }
+
+      if (tipo === "citas") {
+        (data.quotes || []).slice(0, 8).forEach((q) => {
+          elementos.push({
+            titulo: q.author || "Autor desconocido",
+            imagen: fallbackImage("Cita"),
+            lineas: [
+              q.content || "Sin cita",
+              `Longitud: ${(q.content || "").length} caracteres`,
+              `Tipo: Cita famosa`,
+            ],
+          });
+        });
+      }
+
+      if (tipo === "estrenos") {
+        (data.results || []).slice(0, 10).forEach((m) => {
+          elementos.push({
+            titulo: m.title || "Pelicula",
+            imagen: m.poster_url,
+            lineas: [
+              `Estreno: ${m.release_date || "N/D"}`,
+              `Puntaje: ${m.vote_average ?? "N/D"}`,
+              `ID: ${m.id ?? "N/D"}`,
+              `Genero: ${m.genre || "N/D"}`,
+              `Duracion: ${m.runtime ? m.runtime + " min" : "N/D"}`,
+              `Resumen: ${(m.overview || "Sin resumen").slice(0, 58)}...`,
+            ],
+          });
+        });
+      }
+
+      if (tipo === "detallePelicula") {
+        elementos.push({
+          titulo: data.title || "Pelicula",
+          imagen: data.poster_url,
+          lineas: [
+            `ID: ${data.id ?? "N/D"}`,
+            `Estreno: ${data.release_date || "N/D"}`,
+            `Puntaje: ${data.vote_average ?? "N/D"}`,
+            `Genero: ${data.genre || "N/D"}`,
+            `Fuente: ${data.source === "fallback" ? "Respaldo" : "API"}`,
+            `Duracion: ${data.runtime ? data.runtime + " min" : "N/D"}`,
+            `Resumen: ${(data.overview || "Sin resumen").slice(0, 80)}...`,
+          ],
+        });
+      }
+
+      if (tipo === "usuario") {
+        const u = data?.results?.[0];
+        if (u) {
+          elementos.push({
+            titulo: `${u.name.first} ${u.name.last}`,
+            imagen: u.picture?.large,
+            lineas: [
+              `Email: ${u.email}`,
+              `Pais: ${u.location.country}`,
+              `Telefono: ${u.phone}`,
+            ],
+          });
+        }
+      }
+
+      if (tipo === "marte") {
+        (data.photos || []).slice(0, 6).forEach((m) => {
+          elementos.push({
+            titulo: `Rover ${m.rover.name}`,
+            imagen: m.img_src,
+            lineas: [
+              `Camara: ${m.camera.full_name}`,
+              `Fecha: ${m.earth_date}`,
+            ],
+          });
+        });
+      }
+
+      elementos.forEach((item) => cards.appendChild(makeCard(item)));
+    }
+
+    async function ejecutar() {
+      const tipo = document.getElementById("tipo").value;
+      const param = document.getElementById("param").value.trim();
+      const size = document.getElementById("size").value.trim();
+      const out = document.getElementById("out");
+      out.textContent = "Consultando...";
+      placeholder.style.display = "none";
+      cards.innerHTML = "";
+      loading.style.display = "flex";
+      try {
+        const data = await gateway.consultar(tipo, param, size);
+        renderCards(tipo, data);
+        out.textContent = JSON.stringify(data, null, 2).slice(0, 2500);
+        loading.style.display = "none";
+        if (!cards.children.length) {
+          placeholder.textContent = "No se encontraron resultados para esta consulta.";
+          placeholder.style.display = "block";
+        }
+      } catch (e) {
+        loading.style.display = "none";
+        cards.innerHTML = "";
+        placeholder.textContent = "No se pudo obtener información en este momento. Intenta de nuevo.";
+        placeholder.style.display = "block";
+        out.textContent = "No se pudo consultar: " + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
