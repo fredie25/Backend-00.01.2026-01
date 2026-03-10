@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Db</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --deep: #080a0f;
+      --surface: #0f1117;
+      --card: #141720;
+      --border: rgba(201, 168, 76, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--deep);
+      color: #e8e2d5;
+      font-family: "DM Sans", sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--deep);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* Typography */
+    .font-display {
+      font-family: "Playfair Display", serif;
+    }
+    .font-hero {
+      font-family: "Bebas Neue", cursive;
+      letter-spacing: 0.08em;
+    }
+
+    /* GRID */
+    .movie-card {
+      animation: fadeCard 0.5s ease both;
+    }
+
+    @keyframes fadeCard {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-movies {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: 16px;
+    }
+    /* Typography */
+    .font-display {
+      font-family: "Playfair Display", serif;
+    }
+    .font-hero {
+      font-family: "Bebas Neue", cursive;
+      letter-spacing: 0.08em;
+    }
+    .detail-hero {
+      position: relative;
+      height: 560px;
+      overflow: hidden;
+    }
+    .detail-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.3) saturate(0.8);
+    }
+    .detail-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(8, 10, 15, 0.98) 40%, transparent 100%),
+        linear-gradient(to top, rgba(8, 10, 15, 0.95) 0%, transparent 60%);
+    }
+    .detail-hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: 48px;
+    }
+
+    .cast-card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s;
+      flex-shrink: 0;
+      width: 110px;
+    }
+    .cast-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border);
+    }
+    .cast-card img {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+    }
+
+    /* Genre pill */
+    .genre-pill {
+      background: rgba(201, 168, 76, 0.1);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      padding: 3px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    #header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 10, 15, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    #search-input {
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: #e8e2d5;
+      transition: all 0.3s ease;
+    }
+
+    #hero-banner {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    #hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+      filter: blur(2px) brightness(0.35);
+      transform: scale(1.05);
+      transition: all 0.8s ease;
+    }
+
+    #hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px 48px;
+      background: linear-gradient(
+        to top,
+        rgba(8, 10, 15, 0.95) 0%,
+        rgba(8, 10, 15, 0.3) 60%,
+        transparent 100%
+      );
+    }
+
+    #detail-view {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: var(--deep);
+      overflow-y: auto;
+      animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.35, 1);
+    }
+
+    #detail-view.open {
+      display: block;
+    }
+  </style>
+  <body class="">
+    <!-- Pogress Bar -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <!-- HEADER -->
+    <header id="header">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center gap-6">
+        <div
+          class="flex items-center gap-3 flex-shrink-0 cursor-pointer"
+          id="logo_btn"
+        >
+          <div
+            class="w-8 h-8 rounded-full border-2 flex items-center justify-center"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              style="color: var(--gold)"
+            >
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+          </div>
+          <span>Movie Db</span>
+        </div>
+
+        <!-- Search -->
+        <div class="flex-1 relative max-w-lg">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Buscar películas, directores, géneros..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
+          />
+        </div>
+
+        <!-- Navigator -->
+        <nav class="md:flex items-center gap-6 text-sm opacity-65">
+          <span class="cursor-pointer hover:opacity-100 transition-opacity"
+            >Popular</span
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Vista principal -->
+
+    <div id="home-view">
+      <!-- Contanido Principal -->
+      <!-- Hero Banner -->
+      <div id="hero-banner">
+        <div id="hero-bg"></div>
+        <div id="hero-content">
+          <div class="max-w-2xl">
+            <span id="hero-genre" class="genre-pill text-xs mb-3 inline-block"
+              >Cargando...</span
+            >
+            <h1
+              class="font-display text-5xl md:text-6xl font-black leading-none mb-3"
+              id="hero-title"
+            ></h1>
+            <p
+              class="text-sm opacity-70 mb-5 max-w-md leading-relaxed line-clamp-3"
+              id="hero-overview"
+            ></p>
+            <div class="flex items-center gap-4">
+              <button
+                id="hero-btn"
+                class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all"
+                style="background: var(--gold); color: #08090f"
+                onmouseover="this.style.background = 'var(--gold-light)'"
+                onmouseout="this.style.background = 'var(--gold)'"
+              >
+                Ver detalles →
+              </button>
+              <div class="flex items-center gap-2 text-sm opacity-60">
+                <svg
+                  width="14"
+                  height="14"
+                  fill="var(--gold)"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  />
+                </svg>
+                <span
+                  id="hero-rating"
+                  class="font-medium"
+                  style="color: var(--gold-light)"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main class="max-w-7xl mx-auto px-6 py-10">
+        <!-- Search Result -->
+        <div class="" id="search-results-section">
+          <div class="section-divider">
+            <h2 class="font-display text-2xl font-bold">
+              Resultados de busqueda
+            </h2>
+            <span id="search-count" class="text-xs opacity-40 ml-2"></span>
+          </div>
+          <div id="search-results-grid" class="section-movies"></div>
+
+          <div id="search-empty">
+            <p>Sin resultados</p>
+            <p>Intenta con otro nombre</p>
+          </div>
+        </div>
+        <!-- home section -->
+        <div id="home-sections" class="">
+          <!-- Now Playing -->
+          <section id="section-now_playing" class="mb-14">
+            <div class="section-divider">
+              <p class="text-xs font-hero tracking-widest mb-0.5">En cines</p>
+              <h2 class="font-display text-3xl font-bold leading-none">
+                Ahora en Cartelera
+              </h2>
+            </div>
+            <div id="grid-now_playing" class="section-movies">
+              <div class="col-span-full flex justify-center py-8">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Popular -->
+          <section id="section-popular" class="mb-14">
+            <div class="section-divider">
+              <p class="text-xs font-hero tracking-widest mb-0.5">Tendencia</p>
+              <h2 class="font-display text-3xl font-bold leading-none">
+                Mas populares
+              </h2>
+            </div>
+            <div id="grid-popular" class="section-movies">
+              <div class="col-span-full flex justify-center py-8">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Top Rated -->
+          <section id="section-top_rated" class="mb-14">
+            <div class="section-divider">
+              <p class="text-xs font-hero tracking-widest mb-0.5">Lo mejor</p>
+              <h2 class="font-display text-3xl font-bold leading-none">
+                Mejor Valorado
+              </h2>
+            </div>
+            <div id="grid-top_rated" class="section-movies">
+              <div class="col-span-full flex justify-center py-8">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- upcoming -->
+          <section id="section-upcoming" class="mb-14">
+            <div class="section-divider">
+              <p class="text-xs font-hero tracking-widest mb-0.5">
+                Proximamente
+              </p>
+              <h2 class="font-display text-3xl font-bold leading-none">
+                Proximos estrenos
+              </h2>
+            </div>
+            <div id="grid-upcoming" class="section-movies">
+              <div class="col-span-full flex justify-center py-8">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="detail-view">
+      <div class="detail-hero">
+        <div id="detail-bg" class="detail-hero-bg"></div>
+        <div class="detail-hero-overlay"></div>
+        <div class="detail-hero-content max-w-7xl mx-auto w-full">
+          <div class="flex items-end gap-8 w-full">
+            <img
+              id="detail-poster"
+              src=""
+              alt=""
+              class="hidden md:block w-44 rounded-xl shadow-2xl border flex-shrink-0"
+              style="border-color: var(--border)"
+            />
+            <div class="flex-1">
+              <div class="flex flex-wrap gap-2 mb-3" id="detail-genres"></div>
+              <h1
+                class="font-display text-4xl md:text-5xl font-black mb-2"
+                id="detail-title"
+              ></h1>
+              <p
+                class="text-sm opacity-50 mb-4"
+                id="detail-tagline"
+                style="font-style: italic; color: var(--gold-light)"
+              ></p>
+              <div class="flex flex-wrap items-center gap-5 text-sm">
+                <div class="flex items-center gap-1.5">
+                  <svg
+                    width="14"
+                    height="14"
+                    fill="var(--gold)"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    />
+                  </svg>
+                  <span
+                    id="detail-rating"
+                    class="font-semibold"
+                    style="color: var(--gold-light)"
+                  ></span>
+                  <span class="opacity-40" id="detail-votes"></span>
+                </div>
+                <div class="opacity-60" id="detail-year"></div>
+                <div class="opacity-60" id="detail-runtime"></div>
+                <div class="opacity-60" id="detail-language"></div>
+              </div>
+            </div>
+            <button
+              onclick="closeDetail()"
+              class="back-btn px-4 py-2 rounded-lg text-sm flex-shrink-0 cursor-pointer flex items-center gap-2"
+            >
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Volver
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-6 py-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <!-- Left column -->
+          <div class="md:col-span-2">
+            <!-- Sinopsis -->
+            <div class="mb-10">
+              <p
+                class="text-xs font-hero tracking-widest mb-3"
+                style="color: var(--gold)"
+              >
+                SINOPSIS
+              </p>
+              <p
+                id="detail-overview"
+                class="leading-relaxed opacity-80 text-base"
+              ></p>
+            </div>
+
+            <!-- Director -->
+            <div class="mb-10" id="detail-directors-section">
+              <p
+                class="text-xs font-hero tracking-widest mb-4"
+                style="color: var(--gold)"
+              >
+                DIRECCIÓN
+              </p>
+              <div id="detail-directors" class="flex flex-wrap gap-3"></div>
+            </div>
+
+            <!-- Cast -->
+            <div class="mb-10" id="detail-cast-section">
+              <p
+                class="text-xs font-hero tracking-widest mb-4"
+                style="color: var(--gold)"
+              >
+                REPARTO
+              </p>
+              <div
+                id="detail-cast"
+                class="flex gap-4 overflow-x-auto pb-3"
+                style="-webkit-overflow-scrolling: touch; scrollbar-width: none"
+              ></div>
+            </div>
+
+            <!-- Videos -->
+            <div class="mb-10" id="detail-videos-section" style="display: none">
+              <p
+                class="text-xs font-hero tracking-widest mb-4"
+                style="color: var(--gold)"
+              >
+                TRÁILER
+              </p>
+              <div
+                id="detail-trailer"
+                class="rounded-xl overflow-hidden aspect-video max-w-lg"
+                style="border: 1px solid var(--border)"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <div
+              class="rounded-xl p-5"
+              style="background: var(--card); border: 1px solid var(--border)"
+            >
+              <p
+                class="text-xs font-hero tracking-widest mb-5"
+                style="color: var(--gold)"
+              >
+                INFORMACIÓN
+              </p>
+              <div class="space-y-4 text-sm" id="detail-info"></div>
+            </div>
+
+            <div
+              class="mt-5 rounded-xl p-5"
+              id="detail-similar-box"
+              style="
+                background: var(--card);
+                border: 1px solid var(--border);
+                display: none;
+              "
+            >
+              <p
+                class="text-xs font-hero tracking-widest mb-4"
+                style="color: var(--gold)"
+              >
+                SIMILARES
+              </p>
+              <div id="detail-similar" class="space-y-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const BEARER =
+      "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NzQ2MDY0Y2EwZDkyZDMzMmY4OGM4MTMyMTk1ZWVjMiIsIm5iZiI6MTY0NjM0MTg0MC40MzM5OTk4LCJzdWIiOiI2MjIxMmVkMDkwMjAxMjAwMWJkODNiNjYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Bmr1C2JDaBTvSPdWoDnEtlOO2iU0XQjlGJZ1DgdFKII";
+    const BASE = "https://api.themoviedb.org/3";
+    const IMG = "https://image.tmdb.org/t/p/";
+    const LANG = "es-MX";
+
+    const headers = {
+      Authorization: `Bearer ${BEARER}`,
+      "Content-Type": "application/json",
+    };
+
+    async function api(path, params = {}) {
+      const q = new URLSearchParams({ language: LANG, ...params });
+      const res = await fetch(`${BASE}${path}?${q}`, { headers });
+      return res.json();
+    }
+
+    // Map of geners
+    let genreMap = {};
+
+    async function loadGenred() {
+      const data = await api("/genre/movie/list");
+      data.genres?.forEach((g) => (genreMap[g.id] = g.name));
+    }
+
+    // Detalle
+
+    async function openDetail(id) {
+      const view = document.getElementById("detail-view");
+
+      view.classList.add("open");
+      view.scrollTop = 0;
+      document.body.style.overflow = "hidden";
+      // clear Data
+      // Clear
+      // Clear
+      [
+        "detail-title",
+        "detail-overview",
+        "detail-tagline",
+        "detail-genres",
+        "detail-directors",
+        "detail-cast",
+        "detail-info",
+        "detail-similar",
+        "detail-trailer",
+      ].forEach((k) => {
+        const el = document.getElementById(k);
+        if (el) el.innerHTML = "";
+      });
+      document.getElementById("detail-videos-section").style.display = "none";
+      document.getElementById("detail-similar-box").style.display = "none";
+
+      try {
+        const [movie, credits, videos, similar] = await Promise.all([
+          api(`/movie/${id}`, { append_to_response: "release_dates" }),
+          api(`/movie/${id}/credits`),
+          api(`/movie/${id}/videos`),
+          api(`/movie/${id}/similar`),
+        ]);
+
+        if (movie.backdrop_path) {
+          document.getElementById("detail-bg").style.backgroundImage =
+            `url(${IMG}w1280${movie.backdrop_path})`;
+        }
+        const poster = document.getElementById("detail-poster");
+        if (movie.poster_path) {
+          poster.src = `${IMG}w500${movie.poster_path}`;
+          poster.classList.remove("hidden");
+        }
+
+        // title
+        document.getElementById("detail-title").textContent = movie.title;
+        document.getElementById("detail-tagline").textContent =
+          movie.tagline || "";
+        document.getElementById("detail-overview").textContent =
+          movie.overview || "Sin sinopsis";
+
+        // console.log(movie);
+
+        // stats
+        document.getElementById("detail-rating").textContent =
+          movie.vote_average?.toFixed(1) || "-";
+        
+          document.getElementById("detail-votes").textContent = movie.vote_count
+          ? `(${movie.vote_count.toLocaleString()})`
+          : "";
+        // console.log(document.getElementById("detail-year"));
+        document.getElementById("detail-year").textContent =
+          movie.release_date?.slice(0, 4) || "";
+        document.getElementById("detail-runtime").textContent = movie.runtime
+          ? `${movie.runtime} min`
+          : "";
+        document.getElementById("detail-language").textContent =
+          movie.spoken_languages?.[0]?.name || "";
+      } catch (error) {}
+
+      //   setProgress(100);
+      //   setTimeout(() => setProgress(0), 500);
+    }
+
+    // Sections
+    function createCard(movie, delay = 0) {
+      const div = document.createElement("div");
+      div.className = "movie-card";
+      div.style.animationDelay = `${delay}ms`;
+
+      const rating = movie.vote_average?.toFixed(1) || "-";
+      const poster = movie.poster_path
+        ? `${IMG}w342${movie.poster_path}`
+        : `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 342 513'%3E%3Crect fill='%23141720' width='342' height='513'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23333' font-size='48'%3E🎬%3C/text%3E%3C/svg%3E`;
+
+      div.innerHTML = `
+      <div class="relative">
+        <img src="${poster}" alt="${movie.title}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 342 513%22%3E%3Crect fill=%22%23141720%22 width=%22342%22 height=%22513%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23444%22 font-size=%2248%22%3E🎬%3C/text%3E%3C/svg%3E'"/>
+        <div class="rating-badge">★ ${rating}</div>
+        <div class="card-overlay">
+          <p class="font-medium text-xs leading-tight">${movie.title}</p>
+          <p class="text-xs opacity-40 mt-0.5">${(movie.release_date || "").slice(0, 4)}</p>
+        </div>
+      </div>`;
+      div.onclick = () => openDetail(movie.id);
+
+      return div;
+    }
+    const renderGrid = (gridId, movies) => {
+      console.log("grid id", gridId);
+      const grid = document.getElementById(gridId);
+      grid.innerHTML = "";
+      if (!movies?.length) {
+        grid.innerHTML =
+          '<p class="opacity-30 text-sm col-span-full py-4">sin Resultados</p>';
+      }
+
+      movies
+        .slice(0, 12)
+        .forEach((m, index) => grid.appendChild(createCard(m, index * 40)));
+    };
+
+    function setupHero(movies) {
+      const m = movies[Math.floor(Math.random() * Math.min(5, movies.length))];
+      if (!m) return;
+      console.log(m);
+      document.getElementById("hero-bg").style.backgroundImage =
+        `url(${IMG}w1280${m.backdrop_path})`;
+      document.getElementById("hero-title").textContent = m.title || m.name;
+      document.getElementById("hero-overview").textContent = m.overview;
+      document.getElementById("hero-rating").textContent =
+        m.vote_average?.toFixed(1);
+      const g = m.genre_ids?.[0];
+      document.getElementById("hero-genre").textContent = g
+        ? genreMap[g] || ""
+        : "";
+      document.getElementById("hero-btn").onclick = () => alert("Click");
+    }
+
+    const sections = [
+      {
+        key: "now_playing",
+        path: "/movie/now_playing",
+      },
+      {
+        key: "popular",
+        path: "/movie/popular",
+      },
+      {
+        key: "top_rated",
+        path: "/movie/top_rated",
+      },
+      {
+        key: "upcoming",
+        path: "/movie/upcoming",
+      },
+    ];
+
+    async function loadSections() {
+      await loadGenred();
+
+      let heroSet = false;
+      for (const s of sections) {
+        const data = await api(s.path);
+        // renderizar el grid
+        renderGrid(`grid-${s.key}`, data.results);
+
+        if (!heroSet && s.key === "now_playing" && data.results?.length) {
+          // Mostrar el hero
+          setupHero(data.results);
+
+          heroSet = true;
+        }
+      }
+    }
+
+    // SEarch
+    let searchTimer;
+    const searchInput = document.getElementById("search-input");
+
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(doSearch, 350);
+    });
+
+    async function doSearch() {
+      const q = searchInput.value.trim();
+      const homeSec = document.getElementById("home-sections");
+      const searchSec = document.getElementById("search-results-section");
+      const hero = document.getElementById("hero-banner");
+      const empty = document.getElementById("search-empty");
+      const grid = document.getElementById("search-results-grid");
+      const count = document.getElementById("search-input");
+
+      if (!q) {
+        searchSec.style.display = "none";
+        homeSec.style.display = "block";
+        hero.style.display = "block";
+        return;
+      }
+
+      hero.style.display = "none";
+      homeSec.style.display = "none";
+      searchSec.style.display = "block";
+      grid.innerHTML = `<div class="col-span-full flex justify-center py-8"><div class="spinner"></div></div>`;
+      empty.classList.add("hidden");
+
+      const data = await api("/search/movie", { query: q });
+      grid.innerHTML = "";
+
+      if (!data.results?.length) {
+        empty.classList.remove("hidden");
+        count.textContent = "";
+        return;
+      }
+
+      count.textContent = `${data.total_results} encontradas`;
+      data.results
+        .slice(0, 20)
+        .forEach((m, i) => grid.appendChild(createCard(m, i * 30)));
+    }
+
+    loadSections();
+  </script>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NASA · APOD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    body { background: #080c14; font-family: 'DM Sans', sans-serif; }
+    h1, h2, .mono { font-family: 'Orbitron', sans-serif; }
+    .skeleton {
+      background: linear-gradient(90deg, #0f1923 25%, #1a2a3a 50%, #0f1923 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    .apod-img { transition: transform 0.4s ease; }
+    .apod-img:hover { transform: scale(1.01); }
+  </style>
+</head>
+<body class="min-h-screen text-white">
+
+  <!-- Main -->
+  <main class="max-w-3xl mx-auto px-6 py-10 space-y-7">
+
+    <!-- Skeleton -->
+    <div id="skeleton" class="space-y-5">
+      <div class="skeleton h-7 w-1/2 rounded-lg"></div>
+      <div class="skeleton h-[420px] w-full rounded-2xl"></div>
+      <div class="skeleton h-4 w-full rounded"></div>
+      <div class="skeleton h-4 w-5/6 rounded"></div>
+      <div class="skeleton h-4 w-4/6 rounded"></div>
+    </div>
+
+    <!-- Error -->
+    <div id="error" class="hidden text-center py-20 space-y-3">
+      <p class="text-5xl">🛸</p>
+      <p class="mono text-red-400 tracking-widest text-sm">ERROR DE CONEXION</p>
+      <p id="error-msg" class="text-gray-500 text-sm"></p>
+      <button onclick="loadAPOD()"
+        class="mt-2 mono text-xs text-blue-400 border border-blue-500/40 px-5 py-2 rounded-full hover:bg-blue-500/10 transition-all tracking-widest">
+        REINTENTAR
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div id="content" class="hidden space-y-6">
+
+      <!-- Title -->
+      <h2 id="apod-title" class="mono text-xl md:text-2xl font-black text-white leading-snug tracking-wide"></h2>
+
+      <!-- Media -->
+      <div id="media-wrap" class="rounded-2xl overflow-hidden bg-black/40 border border-white/5 shadow-2xl"></div>
+
+      <!-- Info chips -->
+      <div id="chips" class="flex flex-wrap gap-2"></div>
+
+      <!-- Explanation -->
+      <div class="rounded-2xl border border-white/5 bg-white/[0.03] p-6 space-y-2">
+        <p class="mono text-[10px] text-blue-400 tracking-[0.2em] uppercase mb-3">Descripcion</p>
+        <p id="apod-explanation" class="text-gray-300 leading-relaxed text-sm"></p>
+      </div>
+
+      <!-- Copyright -->
+      <p id="apod-copyright" class="text-center mono text-[10px] text-gray-600 tracking-widest hidden"></p>
+
+    </div>
+  </main>
+
+  <script>
+    const API_KEY = "UDfexkwn0qIhH1pFGvaUOFoNlZwLvlF9tpjQIWFO";
+    const API_URL = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`;
+
+    async function loadAPOD() {
+      show("skeleton");
+      try {
+        const res  = await fetch(API_URL);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        render(data);
+      } catch (err) {
+        document.getElementById("error-msg").textContent = err.message;
+        show("error");
+      }
+    }
+
+    function show(id) {
+      ["skeleton","error","content"].forEach(i =>
+        document.getElementById(i).classList.toggle("hidden", i !== id)
+      );
+    }
+
+    function render(data) {
+      // Title
+      document.getElementById("apod-title").textContent = data.title;
+
+      // Media
+      const wrap = document.getElementById("media-wrap");
+      wrap.innerHTML = "";
+      if (data.media_type === "video") {
+        const iframe = document.createElement("iframe");
+        iframe.src = data.url;
+        iframe.className = "w-full aspect-video";
+        iframe.setAttribute("frameborder", "0");
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
+      } else {
+        const img = document.createElement("img");
+        img.src = data.hdurl || data.url;
+        img.alt = data.title;
+        img.className = "apod-img w-full object-cover max-h-[520px] cursor-pointer";
+        img.title = "Ver en HD";
+        img.onclick = () => window.open(data.hdurl || data.url, "_blank");
+        wrap.appendChild(img);
+      }
+
+      // Chips
+      const chips = document.getElementById("chips");
+      chips.innerHTML = "";
+      [
+        { label: "📅 " + fmtDate(data.date) },
+        { label: data.media_type === "video" ? "🎬 Video" : "🖼️ Imagen" },
+        { label: "🔭 NASA APOD" },
+      ].forEach(c => {
+        const el = document.createElement("span");
+        el.className = "mono text-[10px] tracking-widest border border-white/10 bg-white/[0.04] text-gray-400 px-3 py-1 rounded-full";
+        el.textContent = c.label;
+        chips.appendChild(el);
+      });
+
+      // Explanation
+      document.getElementById("apod-explanation").textContent = data.explanation;
+
+      // Copyright
+      const copy = document.getElementById("apod-copyright");
+      if (data.copyright) {
+        copy.textContent = "© " + data.copyright.trim();
+        copy.classList.remove("hidden");
+      }
+
+      show("content");
+    }
+
+    function fmtDate(d) {
+      const [y,m,day] = d.split("-");
+      const months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+      return `${day} ${months[+m-1]} ${y}`;
+    }
+
+    loadAPOD();
+  </script>
+</body>
+</html>
+
+

@@ -43,18 +43,19 @@ pagina web en NodeJS que nos ayude a consultar la siguiente lista de API's:
 
 
 Referencias: 
-
-- https://api.github.com/users/rpinedaec83
-- https://api.nasa.gov
-- https://www.frankfurter.app
-- https://pokeapi.co
-- https://rickandmortyapi.com
-- https://www.thecocktaildb.com
-- https://fakestoreapi.com
-- https://unsplash.com/developers
-- https://quotes.rest
-- https://randomuser.me
-- https://developer.themoviedb.org/docs
+//
+//  https://api.github.com/users/rpinedaec83
+//  https://api.nasa.gov
+//  https://www.frankfurter.app
+//  https://pokeapi.co
+//  https://rickandmortyapi.com
+//  https://www.thecocktaildb.com
+//  https://fakestoreapi.com
+//  https://unsplash.com/developers
+//  https://quotes.rest
+//  https://randomuser.me
+//  https://developer.themoviedb.org/docs
+//
 
 
 ### V.	Solución del reto

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            syne: ["Syne", "sans-serif"],
+            mono: ["Space Mono", "monospace"],
+          },
+          animation: {
+            "fade-up": "fadeUp 0.5s ease both",
+            shimmer: "shimmer 3s linear infinite",
+            "pulse-slow": "pulse 3s ease-in-out infinite",
+          },
+          keyframes: {
+            fadeUp: {
+              "0%": { opacity: "0", transform: "translateY(16px)" },
+              "100%": { opacity: "1", transform: "translateY(0)" },
+            },
+            shimmer: {
+              "0%": { backgroundPosition: "0% 50%" },
+              "100%": { backgroundPosition: "200% 50%" },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    .gradient-border {
+      background: linear-gradient(90deg, #58a6ff, #3fb950, #f78166, #58a6ff);
+      background-size: 200%;
+      animation: shimmer 3s linear infinite;
+    }
+    .card-glow {
+      box-shadow:
+        0 0 40px rgba(88, 166, 255, 0.08),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    .stat-hover {
+      transition: all 0.2s ease;
+    }
+    .stat-hover:hover {
+      transform: translateY(-2px);
+      background: rgba(88, 166, 255, 0.1);
+      border-color: rgba(88, 166, 255, 0.4);
+    }
+  </style>
+</head>
+  <body class="bg-black h-screen grid place-content-center p-5 gap-5">
+  
+  
+
+    <h2 class="text-gray-200 text-center">Busca usuario en Github:</h2>
+    <div class="flex flex-row justify-center items-center gap-4 py-2 px-4">
+      <input
+        type="text"
+        id="usuario_github"
+        placeholder="Ingrese su usuario:"
+        class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-accent focus:border-accent px-3 py-2.5 w-full max-w-xs outline-none"
+      />
+      <button
+        id="btn_github"
+        class="bg-blue-500 px-6 py-2.5 text-white text-sm font-medium rounded-lg hover:bg-blue-400 cursor-pointer transition-all duration-300 shrink-0"
+      >
+        Enviar
+      </button>
+    </div>
+
+      <div id="info-user" class="w-full max-w-sm mt-6">
+
+    </div>
+
+  </body>
+  
+  <script>
+    //   id="btn_github"
+    //   id="usuario_github"
+
+    const btnGithub = document.getElementById("btn_github");
+    const inputValue = document.getElementById("usuario_github");
+    const infoUser = document.getElementById("info-user")
+
+    //   async function getData(username) {
+    //   const result = await fetch(`https://api.github.com/users/${username}`);
+    //   const data = await result.json();
+    //   return data;
+    // }
+
+    const getData = async (username) => {
+      const result = await fetch(`https://api.github.com/users/${username}`);
+      const data = await result.json();
+      return data;
+    };
+
+    btnGithub.addEventListener("click", async () => {
+      if (inputValue.value === "") {
+        alert("Ingrese el usuario");
+      }
+
+      const user = await getData(inputValue.value);
+      
+      const div = document.createElement('div');
+
+      div.innerHTML = `<div class="animate-fade-up w-full max-w-sm">
+      <!-- Gradient top border -->
+      <div class="gradient-border h-[3px] rounded-t-2xl"></div>
+
+      <!-- Card -->
+      <div
+        class="bg-[#161b22] border border-[#30363d] border-t-0 rounded-b-2xl p-6 card-glow"
+      >
+        <!-- Header: Avatar + Name -->
+        <div class="flex items-center gap-4 mb-5">
+          <div class="relative flex-shrink-0">
+            <img
+              src="${user.avatar_url}"
+              alt="${user.name}"
+              class="w-16 h-16 rounded-full ring-2 ring-[#30363d] ring-offset-2 ring-offset-[#161b22]"
+            />
+            <!-- Online dot -->
+            <span
+              class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#3fb950] rounded-full border-2 border-[#161b22] animate-pulse-slow"
+            ></span>
+          </div>
+
+          <div class="min-w-0">
+            <h2 class="text-white font-bold text-lg leading-tight truncate">
+            ${user.name}
+            </h2>
+            <span class="font-mono text-[#58a6ff] text-xs">@${user.login}</span>
+            <div class="mt-1.5">
+              <span
+                class="inline-flex items-center gap-1 bg-[#388bfd1a] text-[#58a6ff] text-[10px] font-mono px-2 py-0.5 rounded-full border border-[#388bfd40]"
+              >
+                ⚡ ${user.bio}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio -->
+        <p
+          class="text-[#8b949e] text-sm leading-relaxed mb-5 border-l-2 border-[#30363d] pl-3"
+        >
+    Actualmente estoy en: ${user.location}
+        </p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-2 mb-5">
+          <div
+            class="stat-hover flex flex-col items-center bg-[#0d1117] border border-[#30363d] rounded-xl py-3 px-2 cursor-default"
+          >
+            <span class="text-white font-bold text-xl font-mono">${user.public_repos}</span>
+            <span
+              class="text-[#8b949e] text-[10px] mt-0.5 font-mono uppercase tracking-wider"
+              >Repos</span
+            >
+          </div>
+          <div
+            class="stat-hover flex flex-col items-center bg-[#0d1117] border border-[#30363d] rounded-xl py-3 px-2 cursor-default"
+          >
+            <span class="text-white font-bold text-xl font-mono">${user.followers}</span>
+            <span
+              class="text-[#8b949e] text-[10px] mt-0.5 font-mono uppercase tracking-wider"
+              >Followers</span
+            >
+          </div>
+          <div
+            class="stat-hover flex flex-col items-center bg-[#0d1117] border border-[#30363d] rounded-xl py-3 px-2 cursor-default"
+          >
+            <span class="text-white font-bold text-xl font-mono">${user.following}</span>
+            <span
+              class="text-[#8b949e] text-[10px] mt-0.5 font-mono uppercase tracking-wider"
+              >Following</span
+            >
+          </div>
+        </div>
+
+        <!-- Tags 
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span
+            class="font-mono text-[10px] bg-[#21262d] text-[#7ee787] border border-[#2ea04326] px-2 py-1 rounded-md"
+            >#JavaScript</span
+          >
+          <span
+            class="font-mono text-[10px] bg-[#21262d] text-[#58a6ff] border border-[#388bfd26] px-2 py-1 rounded-md"
+            >#NodeJS</span
+          >
+          <span
+            class="font-mono text-[10px] bg-[#21262d] text-[#d2a8ff] border border-[#8957e526] px-2 py-1 rounded-md"
+            >#React</span
+          >
+          <span
+            class="font-mono text-[10px] bg-[#21262d] text-[#ffa657] border border-[#d2952126] px-2 py-1 rounded-md"
+            >#API</span
+          >
+        </div> -->
+      </div>
+    </div>`
+
+      infoUser.innerHTML = "";
+      infoUser.appendChild(div);
+      
+    });
+
+    // getData();
+  </script>
+</html>
