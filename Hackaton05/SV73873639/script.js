@@ -138,6 +138,7 @@ function ocultarHistorialModal() {
     modal.classList.add('hidden');
     document.body.style.overflow = '';
     document.removeEventListener('keydown', _escCloseHistorial);
+} // <--- ¡ESTA ES LA LLAVE QUE FALTA!
 
 // 2. Limpia el window.onload (quita la creación del modal)
 window.onload = function() {
@@ -160,13 +161,27 @@ window.onload = function() {
     }
 };
 
+
 function cargarModelos() {
     const marca = document.getElementById('marca').value;
     const select = document.getElementById('modelo');
-    if (!DB_SISTEMA.modelos[marca]) { select.innerHTML = ''; select.disabled = true; return; }
-    select.innerHTML = DB_SISTEMA.modelos[marca].map(m => `<option value="${m}">${m.toUpperCase()}</option>`).join('');
+    
+    // Si no hay marca seleccionada o hubo un error
+    if (!DB_SISTEMA.modelos[marca]) { 
+        select.innerHTML = ''; 
+        select.disabled = true; 
+        return; 
+    }
+    
+    // Inyectamos una opción por defecto y luego los modelos correspondientes
+    select.innerHTML = '<option value="" selected disabled>Seleccione modelo</option>' + 
+                       DB_SISTEMA.modelos[marca].map(m => `<option value="${m}">${m.toUpperCase()}</option>`).join('');
+    
+    // Habilitamos el campo para que puedas interactuar
     select.disabled = false;
 }
+
+
 
 document.getElementById('repair-form').onsubmit = function(e) {
     e.preventDefault();
@@ -530,5 +545,4 @@ function renderizarPanelClientesModerno() {
             </div>
         </div>
     `).reverse().join('');
-}
 }
