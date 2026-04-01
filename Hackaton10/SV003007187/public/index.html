@@ -1,0 +1,414 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Lista de Compras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.9rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+        }
+        
+        .tab-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            flex: 1;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.8rem;
+            text-align: center;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .tab.active {
+            background: white;
+            color: #667eea;
+        }
+        
+        .item {
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .item.completed {
+            background: #f7fafc;
+            opacity: 0.7;
+        }
+        
+        .item.completed .item-name {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+        
+        .item-desc {
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        
+        .item-date {
+            font-size: 0.7rem;
+            color: #a0aec0;
+            margin-top: 0.25rem;
+        }
+        
+        .btn-complete {
+            background: #48bb78;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .btn-complete:hover {
+            background: #38a169;
+        }
+        
+        .badge {
+            background: #c6f6d5;
+            color: #276749;
+            padding: 0.3rem 0.7rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #a0aec0;
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .mensaje-flotante {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            color: white;
+            z-index: 1000;
+            animation: fadeInOut 2s forwards;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Mi Lista de Compras</h1>
+        
+        <!-- Formulario para agregar items -->
+        <div class="card">
+            <h2> Agregar nuevo item</h2>
+            <form id="formAgregar">
+                <div class="form-group">
+                    <label>Nombre del producto *</label>
+                    <input type="text" id="nombre" placeholder="Ej: Leche, Pan, Huevos..." required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción (opcional)</label>
+                    <textarea id="descripcion" placeholder="Cantidad, marca, detalles..."></textarea>
+                </div>
+                <button type="submit">Agregar a la lista</button>
+            </form>
+        </div>
+        
+        <!-- Pestañas para cambiar vista -->
+        <div class="tab-group">
+            <div class="tab active" data-vista="pendientes"> Pendientes</div>
+            <div class="tab" data-vista="completados"> Completados</div>
+        </div>
+        
+        <!-- Lista de items -->
+        <div class="card" id="listaContainer">
+            <div class="empty-state">Cargando tu lista...</div>
+        </div>
+    </div>
+    
+    <script>
+      
+        
+        const API = '/api';
+        let vistaActual = 'pendientes';
+        
+        // Cuando la página carga, mostrar pendientes
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarLista();
+            
+            // Configurar pestañas
+            const tabs = document.querySelectorAll('.tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].addEventListener('click', function() {
+                    // Quitar active de todas
+                    for (let j = 0; j < tabs.length; j++) {
+                        tabs[j].classList.remove('active');
+                    }
+                    // Poner active en la actual
+                    this.classList.add('active');
+                    // Cambiar vista
+                    vistaActual = this.getAttribute('data-vista');
+                    cargarLista();
+                });
+            }
+            
+            // Configurar formulario
+            const form = document.getElementById('formAgregar');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                agregarItem();
+            });
+        });
+        
+        // Función para agregar un item
+        async function agregarItem() {
+            const nombre = document.getElementById('nombre').value;
+            const descripcion = document.getElementById('descripcion').value;
+            
+            if (!nombre.trim()) {
+                mostrarMensaje(' El nombre es obligatorio', '#f56565');
+                return;
+            }
+            
+            try {
+                const respuesta = await fetch(`${API}/items`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        nombre: nombre.trim(), 
+                        descripcion: descripcion.trim() 
+                    })
+                });
+                
+                if (respuesta.ok) {
+                    document.getElementById('nombre').value = '';
+                    document.getElementById('descripcion').value = '';
+                    mostrarMensaje(' Item agregado correctamente', '#48bb78');
+                    cargarLista();
+                } else {
+                    mostrarMensaje(' Error al agregar', '#f56565');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarMensaje(' Error de conexión con el servidor', '#f56565');
+            }
+        }
+        
+        // Función para cargar la lista según la vista actual
+        async function cargarLista() {
+            const endpoint = vistaActual === 'pendientes' 
+                ? `${API}/items/pendientes` 
+                : `${API}/items/completados`;
+            
+            try {
+                const respuesta = await fetch(endpoint);
+                const data = await respuesta.json();
+                const items = data.data || data;
+                mostrarItems(items);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('listaContainer').innerHTML = 
+                    '<div class="empty-state"> Error al cargar la lista. ¿El servidor está corriendo?</div>';
+            }
+        }
+        
+        // Función para mostrar los items en pantalla
+        function mostrarItems(items) {
+            const container = document.getElementById('listaContainer');
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        🛒 No hay items ${vistaActual === 'pendientes' ? 'pendientes' : 'completados'}
+                        <br>
+                        <small>Agrega uno usando el formulario</small>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                html += `
+                    <div class="item ${item.esCompletado ? 'completed' : ''}">
+                        <div style="flex: 1">
+                            <div class="item-name">${escapeHTML(item.nombre)}</div>
+                            ${item.descripcion ? `<div class="item-desc">${escapeHTML(item.descripcion)}</div>` : ''}
+                            <div class="item-date"> ${formatearFecha(item.fecha)}</div>
+                        </div>
+                        ${!item.esCompletado ? `
+                            <button class="btn-complete" onclick="completarItem('${item._id}')">
+                                ✓ Completar
+                            </button>
+                        ` : '<span class="badge">Completado</span>'}
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+        
+        // Función para completar un item
+        async function completarItem(id) {
+            try {
+                const respuesta = await fetch(`${API}/items/${id}/completar`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (respuesta.ok) {
+                    mostrarMensaje(' Item completado', '#48bb78');
+                    cargarLista();
+                } else {
+                    mostrarMensaje(' Error al completar', '#f56565');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarMensaje(' Error de conexión', '#f56565');
+            }
+        }
+        
+        // Función para formatear fecha
+        function formatearFecha(fecha) {
+            if (!fecha) return 'Fecha no disponible';
+            try {
+                const f = new Date(fecha);
+                if (isNaN(f.getTime())) return 'Fecha inválida';
+                return f.toLocaleDateString('es-ES');
+            } catch (e) {
+                return 'Fecha inválida';
+            }
+        }
+        
+        // Función para mostrar mensajes temporales
+        function mostrarMensaje(texto, color) {
+            const msg = document.createElement('div');
+            msg.textContent = texto;
+            msg.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${color};
+                padding: 12px 24px;
+                border-radius: 10px;
+                color: white;
+                z-index: 1000;
+                animation: fadeInOut 2s forwards;
+            `;
+            document.body.appendChild(msg);
+            setTimeout(function() {
+                if (msg && msg.remove) msg.remove();
+            }, 2000);
+        }
+        
+        // Función para prevenir inyección de código (seguridad)
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+</body>
+</html>
