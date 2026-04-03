@@ -1,0 +1,18 @@
+### Crear item
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+  "nombre": "Leche",
+  "descripcion": "2 litros",
+  "fecha": "2026-03-29"
+}
+
+### Ver pendientes
+GET http://localhost:3000/items/pendientes
+
+### Ver completados
+GET http://localhost:3000/items/completados
+
+### Completar item (reemplazar ID)
+PATCH http://localhost:3000/items/ID_DEL_ITEM/completar

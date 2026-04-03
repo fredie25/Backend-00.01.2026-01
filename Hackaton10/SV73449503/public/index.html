@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Compras</title>
+    <style>
+      :root {
+        --bg: #f6f4ef;
+        --card: #ffffff;
+        --text: #1c1b1a;
+        --accent: #1f5eff;
+        --muted: #6b6a67;
+        --border: #e2ded7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background: radial-gradient(circle at top, #ffffff, var(--bg));
+      }
+
+      header {
+        padding: 32px 20px 12px;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0 0 6px;
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        display: grid;
+        gap: 20px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      }
+
+      form {
+        display: grid;
+        gap: 12px;
+      }
+
+      label {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        font-size: 16px;
+        font-family: inherit;
+      }
+
+      button {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: none;
+        background: var(--accent);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .columns {
+        display: grid;
+        gap: 16px;
+      }
+
+      @media (min-width: 720px) {
+        .columns {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 10px;
+      }
+
+      li {
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        display: grid;
+        gap: 4px;
+      }
+
+      .meta {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+      }
+
+      .empty {
+        color: var(--muted);
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Lista de Compras</h1>
+      <p>Reto 1 - NodeJS y MongoDB</p>
+    </header>
+    <main>
+      <section class="card">
+        <h2>Crear item</h2>
+        <form id="item-form">
+          <div>
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" required />
+          </div>
+          <div>
+            <label for="descripcion">Descripcion</label>
+            <textarea id="descripcion" name="descripcion" rows="3" required></textarea>
+          </div>
+          <div>
+            <label for="fecha">Fecha</label>
+            <input id="fecha" name="fecha" type="date" required />
+          </div>
+          <button type="submit">Guardar</button>
+        </form>
+      </section>
+
+      <section class="columns">
+        <div class="card">
+          <h2>Pendientes</h2>
+          <ul id="pendientes"></ul>
+        </div>
+        <div class="card">
+          <h2>Completados</h2>
+          <ul id="completados"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/app.js"></script>
+  </body>
+</html>

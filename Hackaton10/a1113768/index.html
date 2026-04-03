@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Compras</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5; padding: 2rem 1rem; }
+    .container { max-width: 680px; margin: auto; }
+    h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
+    .card { background: #fff; border-radius: 10px; padding: 1.2rem;
+            margin-bottom: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .card h2 { font-size: 1rem; margin-bottom: .8rem; color: #555; }
+    .form-grid { display: grid; gap: .6rem; }
+    input, textarea { width: 100%; padding: .5rem .7rem; border: 1px solid #ddd;
+                      border-radius: 6px; font-size: .95rem; font-family: inherit; }
+    textarea { resize: vertical; min-height: 60px; }
+    .btn { padding: .5rem 1.1rem; border: none; border-radius: 6px;
+           cursor: pointer; font-size: .95rem; font-weight: 500; }
+    .btn-primary { background: #4f46e5; color: #fff; }
+    .btn-primary:hover { background: #4338ca; }
+    .btn-success { background: #10b981; color: #fff; font-size: .82rem; padding: .3rem .7rem; }
+    .btn-success:hover { background: #059669; }
+    .tabs { display: flex; gap: .6rem; margin-bottom: 1rem; }
+    .tab { padding: .4rem 1.1rem; border: 2px solid #ddd; border-radius: 20px;
+           cursor: pointer; font-size: .9rem; background: #fff; }
+    .tab.active { border-color: #4f46e5; color: #4f46e5; font-weight: 600; background: #eef2ff; }
+    .item { background: #fff; border-radius: 8px; padding: .8rem 1rem;
+            margin-bottom: .5rem; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    .item-nombre { font-weight: 600; }
+    .item-desc   { color: #666; font-size: .85rem; margin-top: .1rem; }
+    .item-fecha  { color: #999; font-size: .8rem; margin-top: .1rem; }
+    .badge { background: #d1fae5; color: #065f46; border-radius: 12px;
+             padding: .2rem .7rem; font-size: .8rem; font-weight: 500; }
+    .empty { color: #999; text-align: center; padding: 2rem 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🛒 Lista de Compras</h1>
+
+  <div class="card">
+    <h2>Agregar ítem</h2>
+    <div class="form-grid">
+      <input id="nombre" placeholder="Nombre *" required>
+      <textarea id="descripcion" placeholder="Descripción (opcional)"></textarea>
+      <input id="fecha" type="date">
+      <button class="btn btn-primary" onclick="crear()">➕ Agregar</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" id="tab-p" onclick="cargar('pendientes')">⏳ Pendientes</div>
+    <div class="tab"        id="tab-c" onclick="cargar('completados')">✅ Completados</div>
+  </div>
+
+  <div id="lista"></div>
+</div>
+
+<script>
+  let vistaActual = 'pendientes';
+
+  async function crear() {
+    const nombre = document.getElementById('nombre').value.trim();
+    if (!nombre) return alert('El nombre es obligatorio');
+    const body = {
+      nombre,
+      descripcion: document.getElementById('descripcion').value.trim(),
+      fecha: document.getElementById('fecha').value || undefined
+    };
+    const res  = await fetch('/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const json = await res.json();
+    if (!json.ok) return alert('Error: ' + json.error);
+    document.getElementById('nombre').value      = '';
+    document.getElementById('descripcion').value = '';
+    document.getElementById('fecha').value       = '';
+    cargar(vistaActual);
+  }
+
+  async function cargar(vista) {
+    vistaActual = vista;
+    document.getElementById('tab-p').classList.toggle('active', vista === 'pendientes');
+    document.getElementById('tab-c').classList.toggle('active', vista === 'completados');
+    const res   = await fetch('/items/' + vista);
+    const json  = await res.json();
+    const lista = document.getElementById('lista');
+    if (!json.data.length) {
+      lista.innerHTML = '<p class="empty">No hay ítems aquí.</p>';
+      return;
+    }
+    lista.innerHTML = json.data.map(item => {
+      const fecha = item.fecha
+        ? new Date(item.fecha).toLocaleDateString('es-ES') : '—';
+      return `
+        <div class="item">
+          <div>
+            <div class="item-nombre">${item.nombre}</div>
+            <div class="item-desc">${item.descripcion || 'Sin descripción'}</div>
+            <div class="item-fecha">📅 ${fecha}</div>
+          </div>
+          ${item.esCompletado
+            ? '<span class="badge">Completado</span>'
+            : `<button class="btn btn-success" onclick="completar('${item._id}')">Completar</button>`
+          }
+        </div>`;
+    }).join('');
+  }
+
+  async function completar(id) {
+    await fetch('/items/' + id + '/completar', { method: 'PATCH' });
+    cargar(vistaActual);
+  }
+
+  cargar('pendientes');
+</script>
+</body>
+</html>
