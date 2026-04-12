@@ -89,5 +89,6 @@ app.post('/api/inventario/producir', async (req, res) => {
     }
 });
 
+
 const PUERTO = 3000;
 app.listen(PUERTO, () => console.log(`Fábrica operativa en puerto ${PUERTO}`));
