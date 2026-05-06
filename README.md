@@ -63,13 +63,13 @@ Richard
 
 ## Semana 16: Seguridad con JWT y OAuth
 - Uso de JWT en autenticación.
-- OAuth con Google.  
+- OAuth con Google y con Github
 **Hackatón:** Proteger rutas privadas con JWT y simular OAuth con GitHub.
 
 ## Semana 17: Pasarelas de Pago y Despliegue
 - Integración con Stripe y Culqi.
-- Despliegue en Render y Azure.  
 - Despliegue en Docker
+- Despliegue en Render y Azure.  
 **Hackatón:** Integrar Stripe o Culqi en el flujo de compra y desplegar el proyecto en línea.
 
 ## Semana 18: Tutoría y Presentación Final

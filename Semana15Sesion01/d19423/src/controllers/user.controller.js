@@ -7,7 +7,6 @@ exports.allAccess = (req,res)=>{
 }
 
 exports.onlyUsers = async (req,res)=>{
-
     const user  = await User.findById(req.userId);
     if(!user) return res.status(404).send(`usuario no encontrado`);
     res.status(200).send(`Contenido exclusivo para ti ${user.username}`);
