@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PagoLab | Sistema de Pagos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <main class="shell">
+      <header class="hero card reveal">
+        <p class="badge">Hackaton 16</p>
+        <h1>PagoLab</h1>
+        <p>
+          Administra productos, registra compras, procesa pagos y gestiona devoluciones
+          para usuarios autenticados.
+        </p>
+        <div class="session-panel">
+          <div>
+            <span class="muted">Estado de sesión:</span>
+            <strong id="sessionState">Cargando...</strong>
+          </div>
+          <div class="actions-inline">
+            <button id="btnMockLogin" class="btn btn-primary">Iniciar sesión mock</button>
+            <button id="btnLogout" class="btn btn-ghost">Cerrar sesión</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="grid">
+        <article class="card reveal">
+          <h2>Crear producto</h2>
+          <form id="productForm" class="stack">
+            <label>
+              Nombre
+              <input name="name" required placeholder="Ej. Curso Node" />
+            </label>
+            <label>
+              Precio (céntimos)
+              <input name="priceCents" type="number" min="0" required placeholder="12000" />
+            </label>
+            <label>
+              Descripción
+              <textarea name="description" rows="2" placeholder="Opcional"></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">Guardar producto</button>
+          </form>
+        </article>
+
+        <article class="card reveal">
+          <h2>Checkout</h2>
+          <form id="checkoutForm" class="stack">
+            <label>
+              Producto
+              <select name="productId" id="checkoutProduct" required></select>
+            </label>
+            <label>
+              Cantidad
+              <input name="quantity" type="number" min="1" value="1" required />
+            </label>
+            <label>
+              Pasarela
+              <select name="provider">
+                <option value="stripe">Stripe</option>
+                <option value="culqi">Culqi</option>
+              </select>
+            </label>
+            <button class="btn btn-accent" type="submit">Procesar pago</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="card reveal">
+        <div class="section-head">
+          <h2>Catálogo</h2>
+          <button id="btnReloadProducts" class="btn btn-ghost">Actualizar</button>
+        </div>
+        <div id="productsList" class="product-list"></div>
+      </section>
+
+      <section class="card reveal">
+        <div class="section-head">
+          <h2>Pagos y devoluciones</h2>
+          <button id="btnReloadPayments" class="btn btn-ghost">Actualizar</button>
+        </div>
+        <div id="paymentsList" class="payments-list"></div>
+      </section>
+
+      <section class="card reveal">
+        <h2>Actividad</h2>
+        <pre id="log" class="log"></pre>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

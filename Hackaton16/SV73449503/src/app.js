@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2');
@@ -76,6 +77,7 @@ async function createApp(options = {}) {
 
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(express.static(path.join(__dirname, '..', 'public')));
 
   app.get('/health', async (req, res) => {
     const row = await db.get('SELECT 1 AS ok');
@@ -113,6 +115,29 @@ async function createApp(options = {}) {
     } catch (err) {
       next(err);
     }
+  });
+
+  app.post('/auth/logout', (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      req.session.destroy((sessionErr) => {
+        if (sessionErr) {
+          next(sessionErr);
+          return;
+        }
+        res.json({ message: 'Sesion cerrada' });
+      });
+    });
+  });
+
+  app.get('/me', (req, res) => {
+    res.json({
+      authenticated: Boolean(req.user),
+      user: req.user || null,
+    });
   });
 
   app.post('/products', async (req, res, next) => {
