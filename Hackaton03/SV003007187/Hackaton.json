@@ -1,7 +1,0 @@
-{
-  "emmet.triggerExpansionOnTab": true,
-  "editor.autoClosingQuotes": "always",
-  "editor.autoClosingBrackets": "always",
-  "html.autoClosingTags": true,
-  "javascript.autoClosingTags": true
-}
