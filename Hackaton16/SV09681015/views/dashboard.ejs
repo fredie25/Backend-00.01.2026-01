@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi cuenta · PagoClick</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+  <%- include('partials/navbar') %>
+
+    <main class="container">
+      <div class="dashboard-header">
+        <img src="<%= user.avatar || 'https://ui-avatars.com/api/?name=' + user.name %>" class="avatar" alt="Avatar">
+        <div>
+          <h2>Hola, <%= user.name %></h2>
+          <p class="text-muted">Conectado via <%= user.provider %>
+          </p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number">
+            <%= stats.total_orders %>
+          </span>
+          <span class="stat-label">Compras realizadas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">$<%= Number(stats.total_spent).toFixed(2) %></span>
+          <span class="stat-label">Total gastado</span>
+        </div>
+      </div>
+
+      <h3 class="section-title">Historial de compras</h3>
+
+      <% if (!orders || orders.length===0) { %>
+        <div class="empty-state">
+          <p>Aún no tienes compras. <a href="/products">¡Ve a la tienda!</a></p>
+        </div>
+        <% } else { %>
+          <div class="orders-list">
+            <% orders.forEach(order=> { %>
+              <div class="order-card">
+                <div class="order-info">
+                  <span class="order-id">#<%= order.order_id %></span>
+                  <span class="order-products">
+                    <%= order.product_names %>
+                  </span>
+                  <span class="order-date">
+                    <%= new Date(order.purchased_at).toLocaleDateString('es-PE') %>
+                  </span>
+                </div>
+                <div class="order-right">
+                  <span class="badge badge-<%= order.status %>">
+                    <%= order.status %>
+                  </span>
+                  <strong>$<%= Number(order.total).toFixed(2) %></strong>
+                  <% if (order.status==='paid' ) { %>
+                    <button class="btn btn-sm btn-outline refund-btn" data-id="<%= order.order_id %>">
+                      Solicitar devolución
+                    </button>
+                    <% } %>
+                </div>
+              </div>
+              <% }) %>
+          </div>
+          <% } %>
+    </main>
+
+    <div id="refund-modal" class="modal hidden">
+      <div class="modal-box">
+        <h3>Solicitar devolución</h3>
+        <textarea id="refund-reason" placeholder="Motivo de la devolución..." rows="4"></textarea>
+        <div class="modal-actions">
+          <button id="cancel-refund" class="btn btn-outline">Cancelar</button>
+          <button id="confirm-refund" class="btn btn-danger">Confirmar devolución</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.emit('join_user', '<%= user.id %>');
+
+      socket.on('payment_confirmed', (data) => {
+        alert('✅ ' + data.message);
+      });
+      socket.on('refund_processed', (data) => {
+        alert('💸 ' + data.message);
+      });
+
+      let selectedOrderId = null;
+
+      document.querySelectorAll('.refund-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedOrderId = btn.dataset.id;
+          document.getElementById('refund-modal').classList.remove('hidden');
+        });
+      });
+
+      document.getElementById('cancel-refund').addEventListener('click', () => {
+        document.getElementById('refund-modal').classList.add('hidden');
+      });
+
+      document.getElementById('confirm-refund').addEventListener('click', async () => {
+        const reason = document.getElementById('refund-reason').value;
+        const res = await fetch('/payments/refund', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId: selectedOrderId, reason }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('✅ Devolución procesada');
+          location.reload();
+        } else {
+          alert('❌ ' + data.error);
+        }
+        document.getElementById('refund-modal').classList.add('hidden');
+      });
+    </script>
+</body>
+
+</html>

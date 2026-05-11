@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda · PayStore</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+  <%- include('partials/navbar') %>
+
+    <main class="container">
+      <h2 class="page-title">Catálogo</h2>
+
+      <div class="products-grid">
+        <% products.forEach(product=> { %>
+          <div class="product-card" data-id="<%= product.id %>" data-price="<%= product.price %>"
+            data-name="<%= product.name %>">
+            <img src="<%= product.image_url %>" alt="<%= product.name %>" class="product-img">
+            <div class="product-body">
+              <h3>
+                <%= product.name %>
+              </h3>
+              <p class="product-desc">
+                <%= product.description %>
+              </p>
+              <div class="product-footer">
+                <span class="price">$<%= Number(product.price).toFixed(2) %></span>
+                <button class="btn btn-primary add-to-cart" data-id="<%= product.id %>">
+                  + Carrito
+                </button>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+      </div>
+    </main>
+
+    <!-- Carrito flotante -->
+    <div id="cart-drawer" class="cart-drawer hidden">
+      <div class="cart-header">
+        <h3>🛒 Mi Carrito</h3>
+        <button id="close-cart">✕</button>
+      </div>
+      <div id="cart-items"></div>
+      <div class="cart-footer">
+        <strong>Total: $<span id="cart-total">0.00</span></strong>
+        <button id="checkout-btn" class="btn btn-primary" disabled>Pagar con Stripe</button>
+      </div>
+    </div>
+
+    <button id="cart-fab" class="cart-fab">🛒 <span id="cart-count">0</span></button>
+
+    <div id="notif" class="notification hidden"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const USER_ID = '<%= user.id %>';
+      const socket = io();
+      socket.emit('join_user', USER_ID);
+
+      socket.on('payment_confirmed', (data) => showNotif('✅ ' + data.message, 'success'));
+      socket.on('refund_processed', (data) => showNotif('💸 ' + data.message, 'info'));
+
+      function showNotif(msg, type) {
+        const el = document.getElementById('notif');
+        el.textContent = msg;
+        el.className = 'notification ' + type;
+        setTimeout(() => el.classList.add('hidden'), 5000);
+      }
+
+      // ── Carrito ──────────────────────────────────────────────────────────────
+      let cart = {};
+
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.product-card');
+          const id = card.dataset.id;
+          const name = card.dataset.name;
+          const price = parseFloat(card.dataset.price);
+          cart[id] = cart[id] || { name, price, qty: 0 };
+          cart[id].qty++;
+          renderCart();
+          document.getElementById('cart-drawer').classList.remove('hidden');
+        });
+      });
+
+      document.getElementById('close-cart').addEventListener('click', () => {
+        document.getElementById('cart-drawer').classList.add('hidden');
+      });
+
+      document.getElementById('cart-fab').addEventListener('click', () => {
+        document.getElementById('cart-drawer').classList.remove('hidden');
+      });
+
+      function renderCart() {
+        const items = Object.entries(cart);
+        const total = items.reduce((s, [, v]) => s + v.price * v.qty, 0);
+        document.getElementById('cart-count').textContent = items.reduce((s, [, v]) => s + v.qty, 0);
+        document.getElementById('cart-total').textContent = total.toFixed(2);
+        document.getElementById('cart-items').innerHTML = items.map(([id, v]) => `
+        <div class="cart-item">
+          <span>${v.name} × ${v.qty}</span>
+          <span>$${(v.price * v.qty).toFixed(2)}</span>
+          <button onclick="removeItem('${id}')">✕</button>
+        </div>`).join('');
+        document.getElementById('checkout-btn').disabled = items.length === 0;
+      }
+
+      function removeItem(id) {
+        delete cart[id];
+        renderCart();
+      }
+
+      document.getElementById('checkout-btn').addEventListener('click', async () => {
+        const items = Object.entries(cart).map(([productId, v]) => ({
+          productId: +productId,
+          quantity: v.qty
+        }));
+        const res = await fetch('/payments/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items }),
+        });
+        const data = await res.json();
+        if (data.url) window.location.href = data.url;
+        else alert('Error: ' + data.error);
+      });
+    </script>
+</body>
+
+</html>
